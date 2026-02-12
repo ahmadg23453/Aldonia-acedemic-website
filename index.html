@@ -1,39 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aldonia Academic Website</title>
-    <script>
-        function saveChanges() {
-            const price = document.getElementById('price').value;
-            const imageUrl = document.getElementById('imageUrl').value;
-            const content = document.getElementById('content').value;
-
-            // Simulate saving data (replace with actual backend code)
-            alert(`Changes saved!\nPrice: ${price}\nImage URL: ${imageUrl}\nContent: ${content}`);
-        }
-    </script>
+    <title>dldonia Academy</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Welcome to Aldonia Academic Website</h1>
+        <h1>مرحباً بكم في dldonia Academy</h1>
+        <nav>
+            <a href="index.html">الرئيسية</a>
+            <a href="courses.html">الدورات</a>
+            <a href="prices.html">الأسعار</a>
+            <a href="contact.html">اتصل بنا</a>
+            <a href="admin.html">أدمن</a>
+        </nav>
     </header>
 
     <section>
-        <h2>Admin Panel</h2>
-        <form onsubmit="saveChanges(); return false;">
-            <label for="price">Edit Price:</label><br>
-            <input type="text" id="price" name="price" required><br><br>
-
-            <label for="imageUrl">Add Image URL:</label><br>
-            <input type="text" id="imageUrl" name="imageUrl" required><br><br>
-
-            <label for="content">Manage Content:</label><br>
-            <textarea id="content" name="content"></textarea><br><br>
-
-            <input type="submit" value="Save Changes">
-        </form>
+        <h2>أحدث الدورات</h2>
+        <div id="courses-list"></div>
     </section>
+
+    <footer>
+        <p>© 2026 dldonia Academy</p>
+    </footer>
+
+    <script src="app.js"></script>
 </body>
 </html>
