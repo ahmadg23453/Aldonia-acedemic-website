@@ -1,92 +1,81 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>dldonia academy - تسجيل + AI خانة</title>
-<style>
-:root{
-  --bg:#0b1020; --text:#eef1ff; --muted:#aab3d6; 
-  --brand:#6c7bff; --brand2:#33d6a6; --radius:16px; --shadow:0 14px 40px rgba(0,0,0,.35);
-}
-body{margin:0;font-family:system-ui, -apple-system, Segoe UI,Tahoma,Arial; background: radial-gradient(1200px 700px at 80% 0%, rgba(108,123,255,.35), transparent 55%), radial-gradient(1000px 600px at 0% 30%, rgba(51,214,166,.25), transparent 50%), var(--bg); color:var(--text);}
-.container{max-width:900px;margin:0 auto;padding:22px;}
-h1,h2{margin:0 0 12px;}
-input,textarea,button{border-radius:12px;padding:10px;border:none;outline:none;font-size:15px;}
-input,textarea{width:100%;margin-top:8px;background: rgba(255,255,255,.04);color:var(--text);border:1px solid rgba(255,255,255,.12);}
-button{cursor:pointer;}
-.card{background: rgba(18,26,51,.85); border-radius:var(--radius);padding:14px;margin-top:12px; border:1px solid rgba(255,255,255,.08);}
-.btnPrimary{background: linear-gradient(135deg, var(--brand), var(--brand2)); color:#0b1020; font-weight:700; margin-top:8px;}
-#aiContainer{margin-top:12px;}
-textarea.aiInput{height:200px;}
-a.btnPrimary{display:inline-block;text-decoration:none;padding:10px 15px;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aldonia Academic Website</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="container">
-  <h1>dldonia academy 🎓</h1>
-  <p>ضع بريدك الإلكتروني وابدأ باستخدام واجهة الأسئلة (AI خانة) فورًا!</p>
-
-  <!-- تسجيل سريع بالبريد -->
-  <form id="emailForm" class="card">
-    <label>البريد الإلكتروني</label>
-    <input required id="emailInput" type="email" placeholder="مثال: email@example.com">
-    <button type="submit" class="btnPrimary">ابدأ الآن</button>
-  </form>
-
-  <!-- AI خانة فقط -->
-  <div id="aiSection" class="card" style="display:none;">
-    <h2>واجهة الأسئلة (AI خانة)</h2>
-    <p>اكتب أي سؤال هنا، هذه مجرد خانة لإدخال السؤال بدون رد تلقائي:</p>
-    <div id="aiContainer">
-      <textarea class="aiInput" placeholder="اكتب سؤالك هنا..."></textarea>
-      <button class="btnPrimary" style="margin-top:8px;">إرسال السؤال</button>
-    </div>
-  </div>
-
-  <!-- الكادر -->
-  <div class="card">
-    <h2>الكادر</h2>
-    <p>👩‍🏫 تالا البدور (إنجليزي) <button class="btnPrimary" onclick="openWhatsApp('teacher1')">واتساب تالا</button></p>
-    <p>👨‍🏫 محمود برغل (فيزياء) <button class="btnPrimary" onclick="openWhatsApp('teacher2')">واتساب محمود</button></p>
-    <p>👩‍💼 دنيا (إدارة) <button class="btnPrimary" onclick="openWhatsApp('admin')">واتساب دنيا</button></p>
-  </div>
-
-  <!-- الأسعار -->
-  <div class="card">
-    <h2>الأسعار</h2>
-    <p>💰 125 لكل فصل — مخصص لطلاب 2009</p>
-    <a class="btnPrimary" href="https://wa.me/962779729724?text=مرحبا، أريد دفع 125 لاشتراك dldonia academy" target="_blank">💳 ادفع الآن عبر واتساب</a>
-  </div>
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("emailForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("emailInput").value.trim();
-    if (!email) { alert("ضع بريد صالح"); return; }
-    document.getElementById("emailForm").style.display = "none";
-    document.getElementById("aiSection").style.display = "block";
-    alert("مرحبًا! يمكنك الآن استخدام خانة الأسئلة (AI).");
-  });
-  
-document.querySelector("#aiContainer button").addEventListener("click", () => {
-    const question = document.querySelector("textarea.aiInput").value.trim();
-    if (!question) { alert("اكتب سؤال أولاً"); return; }
-    alert("شكراً! سيتم الرد عليك قريباً.");
-    document.querySelector("textarea.aiInput").value = "";
-  });
-});
-
-function openWhatsApp(person){
-  let phone="";
-  if(person==="teacher1"){phone="962787004304";}
-  if(person==="teacher2"){phone="962779857707";}
-  if(person==="admin"){phone="962779729724";}
-  let msg=encodeURIComponent("مرحبا، أريد الاستفسار عن dldonia academy");
-  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
-}
-</script>
+    <header>
+        <h1>Welcome to Aldonia Academic Website</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#gallery">Lessons Gallery</a></li>
+                <li><a href="#schedule">Schedule</a></li>
+                <li><a href="#grades">Grades Tracker</a></li>
+                <li><a href="#video-lessons">Video Lessons</a></li>
+                <li><a href="#registration">Advanced Registration Form</a></li>
+                <li><a href="#teachers">Teachers Page</a></li>
+                <li><a href="#reviews">Student Reviews</a></li>
+                <li><a href="#blog">Educational Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="about">
+            <h2>About Us</h2>
+            <p>This website provides various educational resources and is designed to help students enhance their learning.</p>
+        </section>
+        <section id="gallery">
+            <h2>Lessons Gallery</h2>
+            <p>Explore our lessons and resources available in our gallery.</p>
+            <!-- Add images or links to lessons -->
+        </section>
+        <section id="schedule">
+            <h2>Schedule</h2>
+            <p>Check out our upcoming schedule for classes and events.</p>
+            <!-- Add schedule details here -->
+        </section>
+        <section id="grades">
+            <h2>Grades Tracker</h2>
+            <p>Track your grades in real time.</p>
+            <!-- Add tracking system here -->
+        </section>
+        <section id="video-lessons">
+            <h2>Video Lessons</h2>
+            <p>Access our collection of video lessons for enhanced learning.</p>
+            <!-- Add video lesson links here -->
+        </section>
+        <section id="registration">
+            <h2>Advanced Registration Form</h2>
+            <form>
+                <label for="student-name">Name:</label>
+                <input type="text" id="student-name" name="student-name" required>
+                <label for="student-email">Email:</label>
+                <input type="email" id="student-email" name="student-email" required>
+                <button type="submit">Register</button>
+            </form>
+        </section>
+        <section id="teachers">
+            <h2>Our Teachers</h2>
+            <p>Meet our dedicated faculty.</p>
+            <!-- Add teacher information here -->
+        </section>
+        <section id="reviews">
+            <h2>Student Reviews</h2>
+            <p>Read what our students have to say about the program.</p>
+            <!-- Add student reviews here -->
+        </section>
+        <section id="blog">
+            <h2>Educational Blog</h2>
+            <p>Stay updated with educational articles and news.</p>
+            <!-- Add blog links or posts here -->
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 Aldonia Academic Website</p>
+    </footer>
 </body>
 </html>
