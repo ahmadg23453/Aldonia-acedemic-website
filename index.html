@@ -4,78 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aldonia Academic Website</title>
-    <link rel="stylesheet" href="styles.css">
+    <script>
+        function saveChanges() {
+            const price = document.getElementById('price').value;
+            const imageUrl = document.getElementById('imageUrl').value;
+            const content = document.getElementById('content').value;
+
+            // Simulate saving data (replace with actual backend code)
+            alert(`Changes saved!\nPrice: ${price}\nImage URL: ${imageUrl}\nContent: ${content}`);
+        }
+    </script>
 </head>
 <body>
     <header>
         <h1>Welcome to Aldonia Academic Website</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#gallery">Lessons Gallery</a></li>
-                <li><a href="#schedule">Schedule</a></li>
-                <li><a href="#grades">Grades Tracker</a></li>
-                <li><a href="#video-lessons">Video Lessons</a></li>
-                <li><a href="#registration">Advanced Registration Form</a></li>
-                <li><a href="#teachers">Teachers Page</a></li>
-                <li><a href="#reviews">Student Reviews</a></li>
-                <li><a href="#blog">Educational Blog</a></li>
-            </ul>
-        </nav>
     </header>
-    <main>
-        <section id="about">
-            <h2>About Us</h2>
-            <p>This website provides various educational resources and is designed to help students enhance their learning.</p>
-        </section>
-        <section id="gallery">
-            <h2>Lessons Gallery</h2>
-            <p>Explore our lessons and resources available in our gallery.</p>
-            <!-- Add images or links to lessons -->
-        </section>
-        <section id="schedule">
-            <h2>Schedule</h2>
-            <p>Check out our upcoming schedule for classes and events.</p>
-            <!-- Add schedule details here -->
-        </section>
-        <section id="grades">
-            <h2>Grades Tracker</h2>
-            <p>Track your grades in real time.</p>
-            <!-- Add tracking system here -->
-        </section>
-        <section id="video-lessons">
-            <h2>Video Lessons</h2>
-            <p>Access our collection of video lessons for enhanced learning.</p>
-            <!-- Add video lesson links here -->
-        </section>
-        <section id="registration">
-            <h2>Advanced Registration Form</h2>
-            <form>
-                <label for="student-name">Name:</label>
-                <input type="text" id="student-name" name="student-name" required>
-                <label for="student-email">Email:</label>
-                <input type="email" id="student-email" name="student-email" required>
-                <button type="submit">Register</button>
-            </form>
-        </section>
-        <section id="teachers">
-            <h2>Our Teachers</h2>
-            <p>Meet our dedicated faculty.</p>
-            <!-- Add teacher information here -->
-        </section>
-        <section id="reviews">
-            <h2>Student Reviews</h2>
-            <p>Read what our students have to say about the program.</p>
-            <!-- Add student reviews here -->
-        </section>
-        <section id="blog">
-            <h2>Educational Blog</h2>
-            <p>Stay updated with educational articles and news.</p>
-            <!-- Add blog links or posts here -->
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 Aldonia Academic Website</p>
-    </footer>
+
+    <section>
+        <h2>Admin Panel</h2>
+        <form onsubmit="saveChanges(); return false;">
+            <label for="price">Edit Price:</label><br>
+            <input type="text" id="price" name="price" required><br><br>
+
+            <label for="imageUrl">Add Image URL:</label><br>
+            <input type="text" id="imageUrl" name="imageUrl" required><br><br>
+
+            <label for="content">Manage Content:</label><br>
+            <textarea id="content" name="content"></textarea><br><br>
+
+            <input type="submit" value="Save Changes">
+        </form>
+    </section>
 </body>
 </html>
