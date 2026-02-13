@@ -3,210 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aldonia Academy | النسخة الاحترافية</title>
+    <title>Aldonia Academy v3.0 | المنصة الاحترافية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; }
+        :root { --primary: #2563eb; --bg: #f3f4f6; --card: #ffffff; --text: #1f2937; --success: #10b981; --danger: #ef4444; }
         
-        /* ثيمات الموقع */
-        body.theme-modern { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; }
-        body.theme-dark { --primary: #3b82f6; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; }
-        body.theme-gold { --primary: #b45309; --bg: #fffbeb; --card: #ffffff; --text: #78350f; }
-        body.theme-forest { --primary: #059669; --bg: #f0fdf4; --card: #ffffff; --text: #064e3b; }
+        body.theme-dark { --primary: #60a5fa; --bg: #0f172a; --card: #1e293b; --text: #f9fafb; }
+        body.theme-royal { --primary: #7c3aed; --bg: #f5f3ff; --card: #ffffff; --text: #4c1d95; }
+        body.theme-sunset { --primary: #f59e0b; --bg: #fff7ed; --card: #ffffff; --text: #7c2d12; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--bg); color: var(--text); transition: 0.3s; line-height: 1.6; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); transition: 0.3s ease; }
 
-        nav { background: var(--card); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-weight: bold; font-size: 1.5rem; color: var(--primary); }
-        .nav-btn { padding: 10px 15px; border-radius: 10px; border: none; cursor: pointer; background: rgba(0,0,0,0.05); color: var(--text); font-weight: 600; transition: 0.2s; }
+        /* Navigation */
+        nav { background: var(--card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary); letter-spacing: -1px; }
+        .nav-links { display: flex; gap: 10px; }
+        .nav-btn { padding: 10px 20px; border-radius: 12px; border: none; cursor: pointer; background: rgba(0,0,0,0.04); color: var(--text); font-weight: 600; transition: 0.2s; }
         .nav-btn.active { background: var(--primary); color: white; }
 
-        .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
-        .card { background: var(--card); border-radius: 15px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.05); }
+        /* Container & Layout */
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .card { background: var(--card); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden; }
 
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-top: 8px; background: var(--card); color: var(--text); }
-        .btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; transition: 0.2s; }
-        .btn:hover { opacity: 0.9; }
-        .btn-del { background: #fee2e2; color: #ef4444; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; }
+        /* Stats Bar */
+        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+        .stat-item { background: var(--primary); color: white; padding: 15px; border-radius: 15px; text-align: center; }
 
-        .ai-section { background: rgba(37, 99, 235, 0.05); border: 1px solid var(--primary); padding: 15px; border-radius: 15px; margin-top: 1rem; }
-        #chatBox { height: 120px; overflow-y: auto; background: white; border-radius: 10px; padding: 10px; font-size: 14px; margin-bottom: 10px; color: #333; border: 1px solid #eee; }
+        /* UI Elements */
+        input, select, textarea { width: 100%; padding: 14px; border: 2px solid #e5e7eb; border-radius: 14px; margin-top: 8px; background: var(--card); color: var(--text); outline: none; transition: 0.2s; }
+        input:focus { border-color: var(--primary); }
+        .btn { background: var(--primary); color: white; border: none; padding: 14px 25px; border-radius: 14px; cursor: pointer; font-weight: 700; width: 100%; margin-top: 10px; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+        
+        /* AI Chat Box */
+        .ai-chat { background: rgba(37, 99, 235, 0.03); border-radius: 20px; border: 1px solid rgba(37, 99, 235, 0.1); padding: 20px; }
+        #chatDisplay { height: 200px; overflow-y: auto; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
+        .msg { padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 0.9rem; }
+        .msg.bot { background: var(--primary); color: white; align-self: flex-start; border-bottom-right-radius: 2px; }
+        .msg.user { background: #e5e7eb; color: #000; align-self: flex-end; border-bottom-left-radius: 2px; }
 
-        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .theme-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
-        .theme-btn { height: 40px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
+        /* List Items */
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .delete-ico { color: var(--danger); cursor: pointer; transition: 0.2s; }
+        .delete-ico:hover { transform: scale(1.2); }
 
+        /* Tabs */
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.4s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-content.active { display: block; animation: fadeInUp 0.5s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 12px; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        /* Theme Picker */
+        .theme-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .theme-circle { height: 45px; border-radius: 12px; cursor: pointer; border: 3px solid transparent; transition: 0.2s; }
+        .theme-circle.active { border-color: var(--text); }
     </style>
 </head>
-<body id="mainBody" class="theme-modern">
+<body id="mainBody">
 
     <nav>
-        <div class="logo">Aldonia Academy 🎓</div>
-        <div>
-            <button class="nav-btn active" onclick="switchTab('studentTab')">بوابة الطالب</button>
-            <button class="nav-btn" onclick="switchTab('adminTab')">الإدارة</button>
+        <div class="logo">ALDONIA <span style="color:var(--text)">ACADEMY</span></div>
+        <div class="nav-links">
+            <button class="nav-btn active" onclick="showTab('stArea')"><i class="fas fa-user-graduate"></i> طالب</button>
+            <button class="nav-btn" onclick="showTab('adArea')"><i class="fas fa-user-shield"></i> مدير</button>
         </div>
     </nav>
 
     <div class="container">
-        <div id="studentTab" class="tab-content active">
-            <div id="stLogin" class="card" style="max-width: 400px; margin: 4rem auto; text-align: center;">
-                <h2>مرحباً بك في الأكاديمية</h2>
-                <input type="text" id="stNameInput" placeholder="أدخل اسمك الكامل">
-                <button class="btn" onclick="stLogin()">دخول للمركز</button>
+        <div id="stArea" class="tab-content active">
+            <div id="stLoginForm" class="card" style="max-width: 450px; margin: 5rem auto; text-align: center;">
+                <i class="fas fa-school fa-3x" style="color: var(--primary); margin-bottom: 1rem;"></i>
+                <h2>مرحباً بك في عالم التميز</h2>
+                <p style="opacity: 0.7;">سجل دخولك لمتابعة حصصك</p>
+                <input type="text" id="stNameInput" placeholder="أدخل اسمك الكامل هنا">
+                <button class="btn" onclick="loginStudent()">دخول المنصة <i class="fas fa-arrow-left"></i></button>
             </div>
 
-            <div id="stDashboard" style="display: none;">
-                <div class="card" style="border-right: 6px solid var(--primary);">
-                    <h3 id="welcomeMsg"></h3>
-                    <div id="stPrivateArea" style="margin-top: 8px; font-weight: bold; color: var(--primary);"></div>
+            <div id="stDash" style="display: none;">
+                <div class="card" style="background: linear-gradient(135deg, var(--primary), #1d4ed8); color: white; border: none;">
+                    <h2 id="stGreeting"></h2>
+                    <div id="stPrivateNotice" style="margin-top: 10px; font-weight: 500; opacity: 0.9;"></div>
                 </div>
 
-                <div class="card ai-section">
-                    <h4>🤖 مساعدك التعليمي (AI الذكي)</h4>
-                    <div id="chatBox">أهلاً بك! أنا مساعدك الذكي، اسألني أي شيء...</div>
-                    <div style="display: flex; gap: 5px;">
-                        <input type="text" id="aiQuery" placeholder="اكتب سؤالك هنا..." style="margin:0">
-                        <button class="btn" style="margin:0; width: 80px;" onclick="askAI()">إرسال</button>
+                <div class="grid" style="margin-top: 2rem;">
+                    <div class="card ai-chat">
+                        <h3><i class="fas fa-robot"></i> مساعدك الذكي AI</h3>
+                        <div id="chatDisplay">
+                            <div class="msg bot">مرحباً! أنا ذكاء الدونيا الاصطناعي، كيف يمكنني مساعدتك في دراستك اليوم؟</div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="aiInp" placeholder="اسأل عن أي مادة..." style="margin:0">
+                            <button class="btn" style="margin:0; width: 60px;" onclick="talkToAI()"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-calendar-alt"></i> الجدول الأسبوعي للمركز</h3>
+                        <div id="stSchedList"></div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <h3>🗓️ الجدول الأسبوعي العام</h3>
-                    <table><thead><tr><th>اليوم</th><th>الحصص والملاحظات</th></tr></thead><tbody id="stTableBody"></tbody></table>
-                </div>
-
-                <div class="card">
-                    <h3>💎 المواد والدورات المتاحة</h3>
-                    <table><thead><tr><th>الدورة</th><th>السعر</th><th>الاشتراك</th></tr></thead><tbody id="stCoursesBody"></tbody></table>
+                <div class="card" style="margin-top: 2rem;">
+                    <h3><i class="fas fa-graduation-cap"></i> الدورات المتاحة للتسجيل</h3>
+                    <div id="stCourseList" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));"></div>
                 </div>
             </div>
         </div>
 
-        <div id="adminTab" class="tab-content">
-            <div id="adLogin" class="card" style="max-width: 400px; margin: auto;">
-                <h3 style="text-align: center;">دخول المدير 🔐</h3>
+        <div id="adArea" class="tab-content">
+            <div id="adLoginForm" class="card" style="max-width: 400px; margin: auto;">
+                <h3 style="text-align: center;"><i class="fas fa-lock"></i> منطقة المدير</h3>
                 <input type="password" id="adPass" placeholder="كلمة المرور">
-                <button class="btn" onclick="adLogin()">تحقق</button>
+                <button class="btn" onclick="loginAdmin()">تحقق <i class="fas fa-shield-alt"></i></button>
             </div>
 
             <div id="adPanel" style="display: none;">
-                <div class="card">
-                    <h4>🎨 واجهة الموقع (تغيير المظهر)</h4>
-                    <div class="theme-selector">
-                        <div class="theme-btn" style="background: #2563eb;" onclick="changeTheme('theme-modern')"></div>
-                        <div class="theme-btn" style="background: #1e293b;" onclick="changeTheme('theme-dark')"></div>
-                        <div class="theme-btn" style="background: #b45309;" onclick="changeTheme('theme-gold')"></div>
-                        <div class="theme-btn" style="background: #059669;" onclick="changeTheme('theme-forest')"></div>
+                <div class="stats-bar">
+                    <div class="stat-item"><b id="countSt">0</b><br>طلاب</div>
+                    <div class="stat-item"><b id="countCr">0</b><br>دورات</div>
+                    <div class="stat-item" style="background: var(--success);"><b id="countTh">1</b><br>نشط</div>
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎨 تخصيص مظهر الموقع</h4>
+                        <div class="theme-grid">
+                            <div class="theme-circle" style="background: #2563eb;" onclick="setTheme('theme-modern')"></div>
+                            <div class="theme-circle" style="background: #1e293b;" onclick="setTheme('theme-dark')"></div>
+                            <div class="theme-circle" style="background: #7c3aed;" onclick="setTheme('theme-royal')"></div>
+                            <div class="theme-circle" style="background: #f59e0b;" onclick="setTheme('theme-sunset')"></div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h4>👥 إدارة الطلاب المسجلين</h4>
+                        <div id="adStList" style="max-height: 200px; overflow-y: auto;"></div>
                     </div>
                 </div>
 
-                <div class="card">
-                    <h4>👥 إدارة الطلاب وتخصيص البيانات</h4>
-                    <p style="font-size: 12px; color: #666; margin-bottom: 10px;">اضغط على الطالب لتعديل حصصه الخاصة</p>
-                    <div id="adStudentsList"></div>
+                <div id="privateBox" class="card" style="display: none; background: rgba(16, 185, 129, 0.05); border: 2px dashed var(--success); margin-top: 1rem;">
+                    <h4>✍️ تخصيص لـ: <span id="targetName" style="color:var(--success)"></span></h4>
+                    <input type="text" id="pSched" placeholder="جدول الحصص الخاص بهذا الطالب">
+                    <input type="text" id="pCourses" placeholder="المواد المسجل بها حالياً">
+                    <button class="btn" style="background: var(--success);" onclick="savePrivate()">حفظ البيانات للطالب</button>
                 </div>
 
-                <div id="editBox" class="card" style="display: none; background: #f1f5f9;">
-                    <h4>تخصيص بيانات للطالب: <span id="targetName"></span></h4>
-                    <input type="text" id="adStSched" placeholder="حصص الطالب الخاصة">
-                    <input type="text" id="adStCourse" placeholder="الدورات التي سجل بها">
-                    <button class="btn" onclick="savePrivateData()">حفظ للطالب ✅</button>
-                </div>
-
-                <div class="card">
-                    <h4>📚 إدارة الدورات</h4>
-                    <div style="display: flex; gap: 5px; margin-bottom: 15px;">
-                        <input type="text" id="newCName" placeholder="اسم الدورة" style="margin:0">
-                        <input type="text" id="newCPrice" placeholder="السعر" style="margin:0">
-                        <button class="btn" style="margin:0; width: 100px;" onclick="addCourse()">إضافة</button>
+                <div class="card" style="margin-top: 1.5rem;">
+                    <h4>📚 إدارة الدورات (إضافة وحذف)</h4>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="cName" placeholder="اسم المادة">
+                        <input type="text" id="cPrice" placeholder="السعر">
+                        <button class="btn" style="width: 120px; margin: 0;" onclick="addCourse()">إضافة</button>
                     </div>
-                    <div id="adCoursesList"></div>
+                    <div id="adCourseList" style="margin-top: 15px;"></div>
                 </div>
 
                 <div class="card">
-                    <h4>🗓️ تحديث الجدول الأسبوعي</h4>
+                    <h4>🗓️ تحديث جدول الأيام</h4>
                     <select id="adDay"><option>السبت</option><option>الأحد</option><option>الأثنين</option><option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option></select>
-                    <input type="text" id="adNote" placeholder="اكتب الحصص">
-                    <button class="btn" onclick="saveDay()">تحديث الجدول</button>
+                    <input type="text" id="adNote" placeholder="تفاصيل الحصص">
+                    <button class="btn" onclick="saveDay()">تحديث الجدول العام</button>
                 </div>
-                <button class="btn" style="background: #64748b;" onclick="location.reload()">خروج</button>
+
+                <button class="btn" style="background: var(--danger); margin-top: 2rem;" onclick="location.reload()">تسجيل الخروج</button>
             </div>
         </div>
     </div>
 
     <script>
-        const MASTER_PASS = "AAAA1234";
-        let curStudent = "";
-        let editingStudent = "";
+        const KEY = "AAAA1234";
+        let user = "";
+        let editTarget = "";
 
-        function switchTab(id) {
+        function showTab(id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             event.currentTarget.classList.add('active');
         }
 
-        // Student Section
-        function stLogin() {
+        // Student Logic
+        function loginStudent() {
             const n = document.getElementById('stNameInput').value;
             if(!n) return;
-            curStudent = n;
-            let students = JSON.parse(localStorage.getItem('ald_students') || '[]');
-            if(!students.includes(n)) students.push(n);
-            localStorage.setItem('ald_students', JSON.stringify(students));
+            user = n;
+            let list = JSON.parse(localStorage.getItem('ald_students') || '[]');
+            if(!list.includes(n)) list.push(n);
+            localStorage.setItem('ald_students', JSON.stringify(list));
             
-            document.getElementById('stLogin').style.display = 'none';
-            document.getElementById('stDashboard').style.display = 'block';
-            document.getElementById('welcomeMsg').innerText = `أهلاً يا ${n} 👋`;
+            document.getElementById('stLoginForm').style.display = 'none';
+            document.getElementById('stDash').style.display = 'block';
+            document.getElementById('stGreeting').innerText = `أهلاً بك يا ${n} ✨`;
             render();
         }
 
-        function askAI() {
-            const q = document.getElementById('aiQuery').value;
-            const box = document.getElementById('chatBox');
+        function talkToAI() {
+            const q = document.getElementById('aiInp').value;
+            const chat = document.getElementById('chatDisplay');
             if(!q) return;
-            box.innerHTML += `<div><b>أنت:</b> ${q}</div>`;
+            chat.innerHTML += `<div class="msg user">${q}</div>`;
             setTimeout(() => {
-                box.innerHTML += `<div><b>AI:</b> شكراً لسؤالك. بخصوص "${q}"، أفضل طريقة هي المراجعة اليومية والتركيز على الأمثلة المحلولة.</div>`;
-                box.scrollTop = box.scrollHeight;
-            }, 800);
-            document.getElementById('aiQuery').value = "";
+                chat.innerHTML += `<div class="msg bot">بناءً على سؤالك حول "${q}"، أنصحك بمراجعة ملخصات المادة وحل الأسئلة السابقة لضمان الفهم الكامل.</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 600);
+            document.getElementById('aiInp').value = "";
         }
 
-        // Admin Section
-        function adLogin() {
-            if(document.getElementById('adPass').value === MASTER_PASS) {
-                document.getElementById('adLogin').style.display = 'none';
+        // Admin Logic
+        function loginAdmin() {
+            if(document.getElementById('adPass').value === KEY) {
+                document.getElementById('adLoginForm').style.display = 'none';
                 document.getElementById('adPanel').style.display = 'block';
                 render();
             } else alert("كلمة السر خاطئة!");
         }
 
-        function changeTheme(t) {
+        function setTheme(t) {
             document.getElementById('mainBody').className = t;
             localStorage.setItem('ald_theme', t);
         }
 
         function addCourse() {
             let c = JSON.parse(localStorage.getItem('ald_courses') || '[]');
-            const name = document.getElementById('newCName').value;
-            const price = document.getElementById('newCPrice').value;
-            if(!name || !price) return;
-            c.push({id: Date.now(), name, price});
+            c.push({id: Date.now(), n: document.getElementById('cName').value, p: document.getElementById('cPrice').value});
             localStorage.setItem('ald_courses', JSON.stringify(c));
             render();
         }
 
-        function deleteCourse(id) {
+        function delCourse(id) {
             let c = JSON.parse(localStorage.getItem('ald_courses') || '[]');
-            c = c.filter(item => item.id !== id); // حذف الدورة المحددة فقط
+            c = c.filter(x => x.id !== id);
             localStorage.setItem('ald_courses', JSON.stringify(c));
             render();
         }
@@ -215,49 +242,48 @@
             let s = JSON.parse(localStorage.getItem('ald_sched') || '{}');
             s[document.getElementById('adDay').value] = document.getElementById('adNote').value;
             localStorage.setItem('ald_sched', JSON.stringify(s));
-            alert("تم تحديث الجدول العام");
             render();
         }
 
-        function openEdit(name) {
-            editingStudent = name;
-            document.getElementById('editBox').style.display = 'block';
+        function editSt(name) {
+            editTarget = name;
+            document.getElementById('privateBox').style.display = 'block';
             document.getElementById('targetName').innerText = name;
-            let data = JSON.parse(localStorage.getItem('ald_p_' + name) || '{}');
-            document.getElementById('adStSched').value = data.s || "";
-            document.getElementById('adStCourse').value = data.c || "";
+            let d = JSON.parse(localStorage.getItem('ald_priv_' + name) || '{}');
+            document.getElementById('pSched').value = d.s || "";
+            document.getElementById('pCourses').value = d.c || "";
         }
 
-        function savePrivateData() {
-            let data = { s: document.getElementById('adStSched').value, c: document.getElementById('adStCourse').value };
-            localStorage.setItem('ald_p_' + editingStudent, JSON.stringify(data));
-            alert("تم التخصيص بنجاح");
-            document.getElementById('editBox').style.display = 'none';
-            render();
+        function savePrivate() {
+            let d = {s: document.getElementById('pSched').value, c: document.getElementById('pCourses').value};
+            localStorage.setItem('ald_priv_' + editTarget, JSON.stringify(d));
+            alert("تم التخصيص بنجاح لـ " + editTarget);
+            document.getElementById('privateBox').style.display = 'none';
         }
 
         function render() {
-            // تحميل الثيم
-            const savedTheme = localStorage.getItem('ald_theme') || 'theme-modern';
-            document.getElementById('mainBody').className = savedTheme;
+            // Theme
+            document.getElementById('mainBody').className = localStorage.getItem('ald_theme') || 'theme-modern';
 
-            // بوابة الطالب
-            const s = JSON.parse(localStorage.getItem('ald_sched') || '{}');
-            document.getElementById('stTableBody').innerHTML = Object.keys(s).map(d => `<tr><td><b>${d}</b></td><td>${s[d]}</td></tr>`).join('');
+            // Data
+            const courses = JSON.parse(localStorage.getItem('ald_courses') || '[]');
+            const sched = JSON.parse(localStorage.getItem('ald_sched') || '{}');
+            const students = JSON.parse(localStorage.getItem('ald_students') || '[]');
 
-            const c = JSON.parse(localStorage.getItem('ald_courses') || '[]');
-            document.getElementById('stCoursesBody').innerHTML = c.map(i => `<tr><td>${i.name}</td><td>${i.price}</td><td><button class="nav-btn" style="padding:5px">حجز</button></td></tr>`).join('');
-
-            if(curStudent) {
-                const p = JSON.parse(localStorage.getItem('ald_p_' + curStudent) || '{}');
-                document.getElementById('stPrivateArea').innerHTML = p.s ? `📌 حصصك الخاصة: ${p.s} <br> ✅ دوراتك: ${p.c}` : "لا توجد حصص خاصة مضافة لك حالياً.";
+            // Student View
+            document.getElementById('stSchedList').innerHTML = Object.keys(sched).map(d => `<div class="list-item"><b>${d}</b> <span>${sched[d]}</span></div>`).join('');
+            document.getElementById('stCourseList').innerHTML = courses.map(c => `<div class="card" style="text-align:center"><h4>${c.n}</h4><p style="color:var(--primary); font-weight:900">${c.p}</p><button class="btn">حجز الآن</button></div>`).join('');
+            
+            if(user) {
+                let p = JSON.parse(localStorage.getItem('ald_priv_' + user) || '{}');
+                document.getElementById('stPrivateNotice').innerHTML = p.s ? `<i class="fas fa-thumbtack"></i> حصصك: ${p.s} <br> <i class="fas fa-check-circle"></i> موادك: ${p.c}` : "لا يوجد حصص خاصة مضافة لك بعد.";
             }
 
-            // لوحة الإدارة
-            document.getElementById('adCoursesList').innerHTML = c.map(i => `<div class="list-item"><span>${i.name} - ${i.price}</span> <button class="btn-del" onclick="deleteCourse(${i.id})">حذف 🗑️</button></div>`).join('');
-            
-            const students = JSON.parse(localStorage.getItem('ald_students') || '[]');
-            document.getElementById('adStudentsList').innerHTML = students.map(name => `<div class="list-item"><span>👤 ${name}</span> <button class="nav-btn" style="padding:4px 10px" onclick="openEdit('${name}')">تخصيص</button></div>`).join('');
+            // Admin View
+            document.getElementById('countSt').innerText = students.length;
+            document.getElementById('countCr').innerText = courses.length;
+            document.getElementById('adCourseList').innerHTML = courses.map(c => `<div class="list-item"><span>${c.n}</span> <i class="fas fa-trash delete-ico" onclick="delCourse(${c.id})"></i></div>`).join('');
+            document.getElementById('adStList').innerHTML = students.map(s => `<div class="list-item"><span>👤 ${s}</span> <button class="nav-btn" style="padding:4px 10px" onclick="editSt('${s}')">تخصيص</button></div>`).join('');
         }
 
         window.onload = render;
