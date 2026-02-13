@@ -3,290 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aldonia Academy v3.0 | المنصة الاحترافية</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Aldonia AI Academy | النسخة الذكية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #2563eb; --bg: #f3f4f6; --card: #ffffff; --text: #1f2937; --success: #10b981; --danger: #ef4444; }
+        :root { --primary: #6366f1; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; --bot-bubble: #6366f1; }
+        body.theme-dark { --primary: #818cf8; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --bot-bubble: #4338ca; }
         
-        body.theme-dark { --primary: #60a5fa; --bg: #0f172a; --card: #1e293b; --text: #f9fafb; }
-        body.theme-royal { --primary: #7c3aed; --bg: #f5f3ff; --card: #ffffff; --text: #4c1d95; }
-        body.theme-sunset { --primary: #f59e0b; --bg: #fff7ed; --card: #ffffff; --text: #7c2d12; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); transition: 0.3s; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
-        body { background: var(--bg); color: var(--text); transition: 0.3s ease; }
+        .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+        .card { background: var(--card); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.05); }
 
-        /* Navigation */
-        nav { background: var(--card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
-        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary); letter-spacing: -1px; }
-        .nav-links { display: flex; gap: 10px; }
-        .nav-btn { padding: 10px 20px; border-radius: 12px; border: none; cursor: pointer; background: rgba(0,0,0,0.04); color: var(--text); font-weight: 600; transition: 0.2s; }
-        .nav-btn.active { background: var(--primary); color: white; }
+        /* AI Chat Enhanced UI */
+        .chat-container { display: flex; flex-direction: column; height: 350px; }
+        .chat-window { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; background: rgba(0,0,0,0.02); border-radius: 15px; margin-bottom: 10px; }
+        .bubble { max-width: 85%; padding: 10px 15px; border-radius: 18px; font-size: 0.95rem; line-height: 1.4; position: relative; animation: pop 0.3s ease; }
+        .bubble.bot { align-self: flex-start; background: var(--bot-bubble); color: white; border-bottom-right-radius: 4px; }
+        .bubble.user { align-self: flex-end; background: #e2e8f0; color: #1e293b; border-bottom-left-radius: 4px; }
+        @keyframes pop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .typing { font-size: 0.8rem; color: var(--primary); font-style: italic; margin-bottom: 5px; display: none; }
 
-        /* Container & Layout */
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-        .card { background: var(--card); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden; }
-
-        /* Stats Bar */
-        .stats-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
-        .stat-item { background: var(--primary); color: white; padding: 15px; border-radius: 15px; text-align: center; }
-
-        /* UI Elements */
-        input, select, textarea { width: 100%; padding: 14px; border: 2px solid #e5e7eb; border-radius: 14px; margin-top: 8px; background: var(--card); color: var(--text); outline: none; transition: 0.2s; }
+        .input-group { display: flex; gap: 8px; }
+        input { flex: 1; padding: 12px 18px; border-radius: 25px; border: 2px solid #e2e8f0; outline: none; transition: 0.3s; background: var(--card); color: var(--text); }
         input:focus { border-color: var(--primary); }
-        .btn { background: var(--primary); color: white; border: none; padding: 14px 25px; border-radius: 14px; cursor: pointer; font-weight: 700; width: 100%; margin-top: 10px; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
-        
-        /* AI Chat Box */
-        .ai-chat { background: rgba(37, 99, 235, 0.03); border-radius: 20px; border: 1px solid rgba(37, 99, 235, 0.1); padding: 20px; }
-        #chatDisplay { height: 200px; overflow-y: auto; margin-bottom: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .msg { padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 0.9rem; }
-        .msg.bot { background: var(--primary); color: white; align-self: flex-start; border-bottom-right-radius: 2px; }
-        .msg.user { background: #e5e7eb; color: #000; align-self: flex-end; border-bottom-left-radius: 2px; }
+        .send-btn { background: var(--primary); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .send-btn:hover { transform: rotate(-15deg) scale(1.1); }
 
-        /* List Items */
-        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .delete-ico { color: var(--danger); cursor: pointer; transition: 0.2s; }
-        .delete-ico:hover { transform: scale(1.2); }
-
-        /* Tabs */
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeInUp 0.5s ease; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Theme Picker */
-        .theme-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .theme-circle { height: 45px; border-radius: 12px; cursor: pointer; border: 3px solid transparent; transition: 0.2s; }
-        .theme-circle.active { border-color: var(--text); }
+        /* Admin Tools */
+        .admin-switch { display: flex; align-items: center; justify-content: space-between; padding: 10px; background: #fef2f2; border-radius: 10px; margin-bottom: 10px; border: 1px solid #fee2e2; }
     </style>
 </head>
-<body id="mainBody">
+<body id="appBody">
 
-    <nav>
-        <div class="logo">ALDONIA <span style="color:var(--text)">ACADEMY</span></div>
-        <div class="nav-links">
-            <button class="nav-btn active" onclick="showTab('stArea')"><i class="fas fa-user-graduate"></i> طالب</button>
-            <button class="nav-btn" onclick="showTab('adArea')"><i class="fas fa-user-shield"></i> مدير</button>
+    <nav style="background: var(--card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <h2 style="color: var(--primary);"><i class="fas fa-brain"></i> ALDONIA AI</h2>
+        <div>
+            <button onclick="switchView('stView')" style="padding: 8px 15px; border-radius: 10px; border: none; cursor: pointer;">بوابة الطالب</button>
+            <button onclick="switchView('adView')" style="padding: 8px 15px; border-radius: 10px; border: none; cursor: pointer;">المدير</button>
         </div>
     </nav>
 
     <div class="container">
-        <div id="stArea" class="tab-content active">
-            <div id="stLoginForm" class="card" style="max-width: 450px; margin: 5rem auto; text-align: center;">
-                <i class="fas fa-school fa-3x" style="color: var(--primary); margin-bottom: 1rem;"></i>
-                <h2>مرحباً بك في عالم التميز</h2>
-                <p style="opacity: 0.7;">سجل دخولك لمتابعة حصصك</p>
-                <input type="text" id="stNameInput" placeholder="أدخل اسمك الكامل هنا">
-                <button class="btn" onclick="loginStudent()">دخول المنصة <i class="fas fa-arrow-left"></i></button>
+        <div id="stView" class="view-section">
+            <div id="stLogin" class="card" style="max-width: 400px; margin: 5rem auto; text-align: center;">
+                <h3>مرحباً بك في المنصة الذكية</h3>
+                <input type="text" id="stName" placeholder="أدخل اسمك الكامل">
+                <button onclick="stEntry()" style="width: 100%; padding: 12px; margin-top: 10px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">دخول</button>
             </div>
 
             <div id="stDash" style="display: none;">
-                <div class="card" style="background: linear-gradient(135deg, var(--primary), #1d4ed8); color: white; border: none;">
-                    <h2 id="stGreeting"></h2>
-                    <div id="stPrivateNotice" style="margin-top: 10px; font-weight: 500; opacity: 0.9;"></div>
+                <div class="card" style="background: linear-gradient(to left, var(--primary), #4338ca); color: white;">
+                    <h2 id="welcome">أهلاً بك</h2>
+                    <p id="privateData" style="margin-top: 10px; font-weight: bold;"></p>
                 </div>
 
-                <div class="grid" style="margin-top: 2rem;">
-                    <div class="card ai-chat">
-                        <h3><i class="fas fa-robot"></i> مساعدك الذكي AI</h3>
-                        <div id="chatDisplay">
-                            <div class="msg bot">مرحباً! أنا ذكاء الدونيا الاصطناعي، كيف يمكنني مساعدتك في دراستك اليوم؟</div>
+                <div class="card" id="aiCard">
+                    <h3><i class="fas fa-magic"></i> مساعد الدونيا الذكي (فعّال الآن)</h3>
+                    <div class="chat-container">
+                        <div id="chatBox" class="chat-window">
+                            <div class="bubble bot">مرحباً! أنا رفيقك الذكي في أكاديمية الدونيا. كيف أساعدك في دراستك اليوم؟</div>
                         </div>
-                        <div style="display: flex; gap: 10px;">
-                            <input type="text" id="aiInp" placeholder="اسأل عن أي مادة..." style="margin:0">
-                            <button class="btn" style="margin:0; width: 60px;" onclick="talkToAI()"><i class="fas fa-paper-plane"></i></button>
+                        <div id="isTyping" class="typing">الذكاء الاصطناعي يفكر...</div>
+                        <div class="input-group">
+                            <input type="text" id="aiInput" placeholder="اسألني عن نصيحة دراسية أو مساعدة...">
+                            <button class="send-btn" onclick="processAI()"><i class="fas fa-paper-plane"></i></button>
                         </div>
                     </div>
-
-                    <div class="card">
-                        <h3><i class="fas fa-calendar-alt"></i> الجدول الأسبوعي للمركز</h3>
-                        <div id="stSchedList"></div>
-                    </div>
-                </div>
-
-                <div class="card" style="margin-top: 2rem;">
-                    <h3><i class="fas fa-graduation-cap"></i> الدورات المتاحة للتسجيل</h3>
-                    <div id="stCourseList" class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));"></div>
                 </div>
             </div>
         </div>
 
-        <div id="adArea" class="tab-content">
-            <div id="adLoginForm" class="card" style="max-width: 400px; margin: auto;">
-                <h3 style="text-align: center;"><i class="fas fa-lock"></i> منطقة المدير</h3>
-                <input type="password" id="adPass" placeholder="كلمة المرور">
-                <button class="btn" onclick="loginAdmin()">تحقق <i class="fas fa-shield-alt"></i></button>
-            </div>
-
-            <div id="adPanel" style="display: none;">
-                <div class="stats-bar">
-                    <div class="stat-item"><b id="countSt">0</b><br>طلاب</div>
-                    <div class="stat-item"><b id="countCr">0</b><br>دورات</div>
-                    <div class="stat-item" style="background: var(--success);"><b id="countTh">1</b><br>نشط</div>
+        <div id="adView" class="view-section" style="display: none;">
+            <div class="card">
+                <h2>إدارة المنصة الذكية ⚙️</h2>
+                <div class="admin-switch">
+                    <span><b>تفعيل الذكاء الاصطناعي للطلاب</b></span>
+                    <input type="checkbox" id="aiToggle" checked onchange="toggleAI()">
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h4>🎨 مظهر الموقع</h4>
+                    <button onclick="setTheme('theme-dark')" style="background: #1e293b; color: white; padding: 10px; border: none; border-radius: 8px; cursor: pointer;">ثيم ليلي</button>
+                    <button onclick="setTheme('')" style="background: #6366f1; color: white; padding: 10px; border: none; border-radius: 8px; cursor: pointer;">ثيم أساسي</button>
                 </div>
 
-                <div class="grid">
-                    <div class="card">
-                        <h4>🎨 تخصيص مظهر الموقع</h4>
-                        <div class="theme-grid">
-                            <div class="theme-circle" style="background: #2563eb;" onclick="setTheme('theme-modern')"></div>
-                            <div class="theme-circle" style="background: #1e293b;" onclick="setTheme('theme-dark')"></div>
-                            <div class="theme-circle" style="background: #7c3aed;" onclick="setTheme('theme-royal')"></div>
-                            <div class="theme-circle" style="background: #f59e0b;" onclick="setTheme('theme-sunset')"></div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h4>👥 إدارة الطلاب المسجلين</h4>
-                        <div id="adStList" style="max-height: 200px; overflow-y: auto;"></div>
-                    </div>
+                <div style="margin-top: 20px;">
+                    <h4>👥 الطلاب النشطون</h4>
+                    <div id="adStudentList"></div>
                 </div>
-
-                <div id="privateBox" class="card" style="display: none; background: rgba(16, 185, 129, 0.05); border: 2px dashed var(--success); margin-top: 1rem;">
-                    <h4>✍️ تخصيص لـ: <span id="targetName" style="color:var(--success)"></span></h4>
-                    <input type="text" id="pSched" placeholder="جدول الحصص الخاص بهذا الطالب">
-                    <input type="text" id="pCourses" placeholder="المواد المسجل بها حالياً">
-                    <button class="btn" style="background: var(--success);" onclick="savePrivate()">حفظ البيانات للطالب</button>
-                </div>
-
-                <div class="card" style="margin-top: 1.5rem;">
-                    <h4>📚 إدارة الدورات (إضافة وحذف)</h4>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="text" id="cName" placeholder="اسم المادة">
-                        <input type="text" id="cPrice" placeholder="السعر">
-                        <button class="btn" style="width: 120px; margin: 0;" onclick="addCourse()">إضافة</button>
-                    </div>
-                    <div id="adCourseList" style="margin-top: 15px;"></div>
-                </div>
-
-                <div class="card">
-                    <h4>🗓️ تحديث جدول الأيام</h4>
-                    <select id="adDay"><option>السبت</option><option>الأحد</option><option>الأثنين</option><option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option></select>
-                    <input type="text" id="adNote" placeholder="تفاصيل الحصص">
-                    <button class="btn" onclick="saveDay()">تحديث الجدول العام</button>
-                </div>
-
-                <button class="btn" style="background: var(--danger); margin-top: 2rem;" onclick="location.reload()">تسجيل الخروج</button>
             </div>
         </div>
     </div>
 
     <script>
-        const KEY = "AAAA1234";
-        let user = "";
-        let editTarget = "";
+        let currentUser = "";
 
-        function showTab(id) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            event.currentTarget.classList.add('active');
+        function switchView(id) {
+            document.querySelectorAll('.view-section').forEach(v => v.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
         }
 
-        // Student Logic
-        function loginStudent() {
-            const n = document.getElementById('stNameInput').value;
-            if(!n) return;
-            user = n;
-            let list = JSON.parse(localStorage.getItem('ald_students') || '[]');
-            if(!list.includes(n)) list.push(n);
-            localStorage.setItem('ald_students', JSON.stringify(list));
-            
-            document.getElementById('stLoginForm').style.display = 'none';
+        function stEntry() {
+            const name = document.getElementById('stName').value;
+            if(!name) return alert("أدخل اسمك");
+            currentUser = name;
+            document.getElementById('stLogin').style.display = 'none';
             document.getElementById('stDash').style.display = 'block';
-            document.getElementById('stGreeting').innerText = `أهلاً بك يا ${n} ✨`;
-            render();
+            document.getElementById('welcome').innerText = `أهلاً يا ${name} 👋`;
+            
+            // حفظ الاسم للأدمن
+            let list = JSON.parse(localStorage.getItem('ald_students') || '[]');
+            if(!list.includes(name)) list.push(name);
+            localStorage.setItem('ald_students', JSON.stringify(list));
+            renderAdmin();
         }
 
-        function talkToAI() {
-            const q = document.getElementById('aiInp').value;
-            const chat = document.getElementById('chatDisplay');
-            if(!q) return;
-            chat.innerHTML += `<div class="msg user">${q}</div>`;
+        // --- محرك الـ AI الفعال ---
+        function processAI() {
+            const input = document.getElementById('aiInput');
+            const box = document.getElementById('chatBox');
+            const typing = document.getElementById('isTyping');
+            const query = input.value.trim();
+            
+            if(!query) return;
+
+            // رسالة المستخدم
+            box.innerHTML += `<div class="bubble user">${query}</div>`;
+            input.value = "";
+            box.scrollTop = box.scrollHeight;
+
+            // محاكاة التفكير
+            typing.style.display = "block";
+
             setTimeout(() => {
-                chat.innerHTML += `<div class="msg bot">بناءً على سؤالك حول "${q}"، أنصحك بمراجعة ملخصات المادة وحل الأسئلة السابقة لضمان الفهم الكامل.</div>`;
-                chat.scrollTop = chat.scrollHeight;
-            }, 600);
-            document.getElementById('aiInp').value = "";
+                let response = "";
+                const q = query.toLowerCase();
+
+                // منطق الرد الذكي بناءً على الكلمات
+                if(q.includes("امتحان") || q.includes("اختبار")) {
+                    response = "لا تقلق من الامتحانات! السر يكمن في حل نماذج السنوات السابقة وتنظيم وقتك. هل تريد نصيحة في مادة معينة؟";
+                } else if(q.includes("دراسة") || q.includes("ادرس")) {
+                    response = "أفضل طريقة للدراسة هي تقنية (بومودورو): 25 دقيقة تركيز ثم 5 دقائق راحة. جربها الآن!";
+                } else if(q.includes("شكرا") || q.includes("يسلمو")) {
+                    response = "العفو! أنا دائماً هنا لمساعدتك يا بطل. بالتوفيق في دراستك!";
+                } else if(q.includes("اسمي")) {
+                    response = `اسمك الجميل هو ${currentUser}، وأنت من أكثر الطلاب تميزاً في الأكاديمية!`;
+                } else {
+                    response = "سؤال رائع! أنصحك بالتركيز على النقاط الأساسية في الدرس ومراجعة ملاحظات الأستاذ في لوحة التحكم الخاصة بك.";
+                }
+
+                typing.style.display = "none";
+                box.innerHTML += `<div class="bubble bot">${response}</div>`;
+                box.scrollTop = box.scrollHeight;
+            }, 1200);
         }
 
-        // Admin Logic
-        function loginAdmin() {
-            if(document.getElementById('adPass').value === KEY) {
-                document.getElementById('adLoginForm').style.display = 'none';
-                document.getElementById('adPanel').style.display = 'block';
-                render();
-            } else alert("كلمة السر خاطئة!");
+        function toggleAI() {
+            const isVisible = document.getElementById('aiToggle').checked;
+            localStorage.setItem('ai_status', isVisible);
+            document.getElementById('aiCard').style.opacity = isVisible ? "1" : "0.3";
+            document.getElementById('aiCard').style.pointerEvents = isVisible ? "all" : "none";
         }
 
         function setTheme(t) {
-            document.getElementById('mainBody').className = t;
+            document.getElementById('appBody').className = t;
             localStorage.setItem('ald_theme', t);
         }
 
-        function addCourse() {
-            let c = JSON.parse(localStorage.getItem('ald_courses') || '[]');
-            c.push({id: Date.now(), n: document.getElementById('cName').value, p: document.getElementById('cPrice').value});
-            localStorage.setItem('ald_courses', JSON.stringify(c));
-            render();
-        }
-
-        function delCourse(id) {
-            let c = JSON.parse(localStorage.getItem('ald_courses') || '[]');
-            c = c.filter(x => x.id !== id);
-            localStorage.setItem('ald_courses', JSON.stringify(c));
-            render();
-        }
-
-        function saveDay() {
-            let s = JSON.parse(localStorage.getItem('ald_sched') || '{}');
-            s[document.getElementById('adDay').value] = document.getElementById('adNote').value;
-            localStorage.setItem('ald_sched', JSON.stringify(s));
-            render();
-        }
-
-        function editSt(name) {
-            editTarget = name;
-            document.getElementById('privateBox').style.display = 'block';
-            document.getElementById('targetName').innerText = name;
-            let d = JSON.parse(localStorage.getItem('ald_priv_' + name) || '{}');
-            document.getElementById('pSched').value = d.s || "";
-            document.getElementById('pCourses').value = d.c || "";
-        }
-
-        function savePrivate() {
-            let d = {s: document.getElementById('pSched').value, c: document.getElementById('pCourses').value};
-            localStorage.setItem('ald_priv_' + editTarget, JSON.stringify(d));
-            alert("تم التخصيص بنجاح لـ " + editTarget);
-            document.getElementById('privateBox').style.display = 'none';
-        }
-
-        function render() {
-            // Theme
-            document.getElementById('mainBody').className = localStorage.getItem('ald_theme') || 'theme-modern';
-
-            // Data
-            const courses = JSON.parse(localStorage.getItem('ald_courses') || '[]');
-            const sched = JSON.parse(localStorage.getItem('ald_sched') || '{}');
-            const students = JSON.parse(localStorage.getItem('ald_students') || '[]');
-
-            // Student View
-            document.getElementById('stSchedList').innerHTML = Object.keys(sched).map(d => `<div class="list-item"><b>${d}</b> <span>${sched[d]}</span></div>`).join('');
-            document.getElementById('stCourseList').innerHTML = courses.map(c => `<div class="card" style="text-align:center"><h4>${c.n}</h4><p style="color:var(--primary); font-weight:900">${c.p}</p><button class="btn">حجز الآن</button></div>`).join('');
+        function renderAdmin() {
+            const sts = JSON.parse(localStorage.getItem('ald_students') || '[]');
+            document.getElementById('adStudentList').innerHTML = sts.map(s => `<div style="padding:10px; border-bottom:1px solid #eee">👤 ${s}</div>`).join('');
             
-            if(user) {
-                let p = JSON.parse(localStorage.getItem('ald_priv_' + user) || '{}');
-                document.getElementById('stPrivateNotice').innerHTML = p.s ? `<i class="fas fa-thumbtack"></i> حصصك: ${p.s} <br> <i class="fas fa-check-circle"></i> موادك: ${p.c}` : "لا يوجد حصص خاصة مضافة لك بعد.";
-            }
-
-            // Admin View
-            document.getElementById('countSt').innerText = students.length;
-            document.getElementById('countCr').innerText = courses.length;
-            document.getElementById('adCourseList').innerHTML = courses.map(c => `<div class="list-item"><span>${c.n}</span> <i class="fas fa-trash delete-ico" onclick="delCourse(${c.id})"></i></div>`).join('');
-            document.getElementById('adStList').innerHTML = students.map(s => `<div class="list-item"><span>👤 ${s}</span> <button class="nav-btn" style="padding:4px 10px" onclick="editSt('${s}')">تخصيص</button></div>`).join('');
+            // تحميل الثيم والإعدادات
+            document.getElementById('appBody').className = localStorage.getItem('ald_theme') || '';
         }
 
-        window.onload = render;
+        window.onload = renderAdmin;
     </script>
 </body>
 </html>
