@@ -76,14 +76,12 @@ button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(102,126,
 </head>
 <body>
 
-<!-- التبويبات -->
 <div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('user')">👤 الطالب</button>
-  <button class="tab-btn" onclick="switchTab('admin')">🔐 الأدمن</button>
-  <button class="tab-btn" onclick="switchTab('chat')">🤖 اسأل الذكاء الاصطناعي</button>
+  <button class="tab-btn active" onclick="switchTab('user', event)">👤 الطالب</button>
+  <button class="tab-btn" onclick="switchTab('admin', event)">🔐 الأدمن</button>
+  <button class="tab-btn" onclick="switchTab('chat', event)">🤖 اسأل الذكاء الاصطناعي</button>
 </div>
 
-<!-- الطالب -->
 <div id="user" class="tab-content active">
   <div class="container">
     <h1>🎓 aldonia academy - منصة الطلاب</h1>
@@ -115,7 +113,6 @@ button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(102,126,
   </div>
 </div>
 
-<!-- الأدمن -->
 <div id="admin" class="tab-content">
   <div class="container">
     <h1>🔐 لوحة الأدمن - إدارة النظام</h1>
@@ -131,8 +128,20 @@ button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(102,126,
     </div>
 
     <div id="adminPanel" style="display:none;">
+      
+      <!-- تغيير كلمة السر -->
+      <h2>🔒 تغيير كلمة مرور الأدمن</h2>
+      <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
+        <div class="form-group">
+          <label>🆕 كلمة مرور جديدة:</label>
+          <input type="password" id="newAdminPass" placeholder="اكتب كلمة مرور جديدة">
+        </div>
+        <button onclick="changeAdminPassword()">✅ حفظ كلمة المرور</button>
+      </div>
+
       <h2>📚 إدارة الدورات</h2>
       <div id="adminCoursesList"></div>
+
       <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
         <h3 style="color: #667eea; margin-bottom: 15px;">➕ إضافة دورة جديدة</h3>
         <div class="form-group">
@@ -149,35 +158,35 @@ button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(102,126,
         </div>
         <div class="form-group">
           <label>📱 رقم واتساب المعلم:</label>
-          <input type="text" id="adminTeacherPhone" placeholder="مثال: 966501234567">
+          <input type="text" id="adminTeacherPhone" placeholder="مثال: 962787004304">
         </div>
         <div class="form-group">
           <label>🎨 اختر أيقونة للدورة:</label>
           <div class="emoji-picker">
-            <button class="emoji-btn" onclick="setIcon('📖')">📖</button>
-            <button class="emoji-btn" onclick="setIcon('🔬')">🔬</button>
-            <button class="emoji-btn" onclick="setIcon('🧮')">🧮</button>
-            <button class="emoji-btn" onclick="setIcon('🌍')">🌍</button>
-            <button class="emoji-btn" onclick="setIcon('🎨')">🎨</button>
-            <button class="emoji-btn" onclick="setIcon('💻')">💻</button>
-            <button class="emoji-btn" onclick="setIcon('📚')">📚</button>
-            <button class="emoji-btn" onclick="setIcon('🎓')">🎓</button>
+            <button type="button" class="emoji-btn" onclick="setIcon('📖')">📖</button>
+            <button type="button" class="emoji-btn" onclick="setIcon('🔬')">🔬</button>
+            <button type="button" class="emoji-btn" onclick="setIcon('🧮')">🧮</button>
+            <button type="button" class="emoji-btn" onclick="setIcon('🌍')">🌍</button>
+            <button type="button" class="emoji-btn" onclick="setIcon('🎨')">🎨</button>
+            <button type="button" class="emoji-btn" onclick="setIcon('💻')">💻</button>
+            <button type="button" class="emoji-btn" onclick="setIcon('📚')">📚</button>
+            <button type="button" class="emoji-btn" onclick="setIcon('🎓')">🎓</button>
           </div>
           <input type="text" id="adminCourseIcon" placeholder="الأيقونة المختارة" readonly style="background: #e8e8e8;">
         </div>
         <button onclick="addAdminCourse()">➕ إضافة الدورة</button>
       </div>
 
-      <!-- إدارة الأسئلة -->
       <h2>💬 إدارة الأسئلة والإجابات</h2>
       <div id="adminQuestionsList"></div>
+
       <div style="background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 15px 0;">
-        <h3 style="color: #667eea; margin-bottom: 15px;">➕ الرد على سؤال</h3>
+        <h3 style="color: #667eea; margin-bottom: 15px;">➕ إضافة ملاحظة (للإدارة فقط)</h3>
         <div class="form-group">
-          <label>📝 اكتب الإجابة أو ملاحظة:</label>
+          <label>📝 اكتب إجابة أو ملاحظة:</label>
           <textarea id="adminNewQuestion" placeholder="أكتب إجابتك أو ملاحظة مهمة..."></textarea>
         </div>
-        <button onclick="addAdminQuestion()">📤 إضافة إجابة</button>
+        <button onclick="addAdminQuestion()">📤 إضافة</button>
       </div>
 
       <h2>⚙️ إعدادات التصميم</h2>
@@ -198,7 +207,6 @@ button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(102,126,
   </div>
 </div>
 
-<!-- الذكاء الاصطناعي -->
 <div id="chat" class="tab-content">
   <div class="container">
     <h1>🤖 اسأل الذكاء الاصطناعي</h1>
@@ -224,11 +232,298 @@ button:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(102,126,
 </div>
 
 <script>
-// كلمة مرور الأدمن
-const ADMIN_PASSWORD = "aldonia2026";
+// ===== كلمة السر الافتراضية + تخزينها =====
+const DEFAULT_ADMIN_PASSWORD = "donia123";
+function getAdminPassword(){
+  return localStorage.getItem("adminPass") || DEFAULT_ADMIN_PASSWORD;
+}
+function setAdminPassword(newPass){
+  localStorage.setItem("adminPass", newPass);
+}
 
-// باقي الكود نفسه كما في النسخة السابقة مع تعديل إضافة الدورات على السعر بدل الوقت
-// ... (يمكنك نسخ نفس الدوال السابقة مع تعديل الوقت إلى السعر)
+// ===== AI Responses =====
+const aiResponses = {
+  "السلام عليكم": "وعليكم السلام ورحمة الله وبركاته 👋",
+  "ما اسمك": "أنا مساعدك الذكي في أكاديمية الدونيا 🤖",
+  "شنو أفضل مادة": "كل المواد مهمة، لكن اختر اللي تحب وركز عليها 📚",
+  "كيف أتحسن بالدراسة": "ادرس يومياً، مارس الأسئلة، وطلب مساعدة من المعلمين 💪",
+  "هسا الساعة كم": new Date().toLocaleTimeString('ar-SA'),
+  "اليوم الأسبوع": new Date().toLocaleDateString('ar-SA', { weekday: 'long' }),
+};
+
+// =================== التنقل بين الخانات =================
+function switchTab(tab, ev) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  if(ev && ev.target) ev.target.classList.add('active');
+}
+
+// =================== المستخدم (الطالب) =================
+let currentUserEmail = "";
+
+function loginUser() {
+  const email = document.getElementById('userEmail').value.trim();
+  if (!email) { alert('أدخل بريدك الإلكتروني'); return; }
+  currentUserEmail = email;
+  document.getElementById('loginSection').style.display = 'none';
+  document.getElementById('userPanel').style.display = 'block';
+  loadUserCourses();
+  loadUserQuestions();
+}
+
+function addUserQuestion() {
+  const question = document.getElementById('userQuestion').value.trim();
+  if (!question) { alert('أكتب سؤالك أولاً'); return; }
+  let questions = JSON.parse(localStorage.getItem('questions') || '[]');
+  questions.push({ email: currentUserEmail, text: question, date: new Date().toLocaleString('ar-SA'), answered: false });
+  localStorage.setItem('questions', JSON.stringify(questions));
+  document.getElementById('userQuestion').value = '';
+  loadUserQuestions();
+  alert('✅ تم إرسال سؤالك!');
+}
+
+function loadUserCourses() {
+  const courses = JSON.parse(localStorage.getItem('courses') || '[]');
+  const list = document.getElementById('userCoursesList');
+  list.innerHTML = courses.length ? courses.map(c => `
+    <div class="course-box">
+      <h3>${c.icon} ${c.name}</h3>
+      <p>👨‍🏫 المعلم: ${c.teacher}</p>
+      <p>💰 السعر: ${c.price}</p>
+      <button class="whatsapp-btn" onclick="openWhatsApp('${c.phone}')" style="margin-top: 10px;">💬 واتساب المعلم</button>
+    </div>
+  `).join('') : '<p>لا توجد دورات حالياً</p>';
+}
+
+function loadUserQuestions() {
+  const questions = JSON.parse(localStorage.getItem('questions') || '[]');
+  const userQs = questions.filter(q => q.email === currentUserEmail);
+  const list = document.getElementById('userQuestionsList');
+  list.innerHTML = userQs.length ? userQs.map(q => `
+    <div class="question-item">
+      <div>
+        <strong>${q.email}</strong>
+        <p>${q.text}</p>
+        <small>${q.date}</small>
+        ${q.answered ? '<div class="success-msg">✅ تم الرد على سؤالك</div>' : '<div class="error-msg">⏳ بانتظار الرد</div>'}
+      </div>
+    </div>
+  `).join('') : '<p>لا توجد أسئلة بعد</p>';
+}
+
+function openWhatsApp(phone) {
+  const clean = (phone || "").replace(/\s|\+/g,'');
+  window.open(`https://wa.me/${clean}?text=مرحباً، أريد الاستفسار عن الدورة`, '_blank');
+}
+
+function logoutUser() {
+  currentUserEmail = "";
+  document.getElementById('loginSection').style.display = 'block';
+  document.getElementById('userPanel').style.display = 'none';
+  document.getElementById('userEmail').value = '';
+}
+
+// =================== الأدمن =================
+let adminLoggedIn = false;
+
+function loginAdmin() {
+  const password = document.getElementById('adminPassword').value;
+  if (password !== getAdminPassword()) { alert('❌ كلمة مرور خاطئة'); return; }
+  adminLoggedIn = true;
+  document.getElementById('adminLoginSection').style.display = 'none';
+  document.getElementById('adminPanel').style.display = 'block';
+  loadAdminCourses();
+  loadAdminQuestions();
+  loadDesignSettings();
+}
+
+function changeAdminPassword(){
+  const newPass = document.getElementById("newAdminPass").value.trim();
+  if(newPass.length < 4){
+    alert("❌ كلمة المرور لازم تكون 4 أحرف/أرقام أو أكثر");
+    return;
+  }
+  setAdminPassword(newPass);
+  document.getElementById("newAdminPass").value = "";
+  alert("✅ تم تغيير كلمة مرور الأدمن!");
+}
+
+function setIcon(icon) {
+  document.getElementById('adminCourseIcon').value = icon;
+}
+
+function addAdminCourse() {
+  const name = document.getElementById('adminCourseName').value.trim();
+  const teacher = document.getElementById('adminTeacherName').value.trim();
+  const price = document.getElementById('adminCoursePrice').value.trim();
+  const phone = document.getElementById('adminTeacherPhone').value.trim();
+  const icon = document.getElementById('adminCourseIcon').value.trim();
+
+  if (!name || !teacher || !price || !phone || !icon) { alert('ملء جميع الحقول مطلوب'); return; }
+
+  let courses = JSON.parse(localStorage.getItem('courses') || '[]');
+  courses.push({ name, teacher, price, phone, icon });
+  localStorage.setItem('courses', JSON.stringify(courses));
+  
+  document.getElementById('adminCourseName').value = '';
+  document.getElementById('adminTeacherName').value = '';
+  document.getElementById('adminCoursePrice').value = '';
+  document.getElementById('adminTeacherPhone').value = '';
+  document.getElementById('adminCourseIcon').value = '';
+  
+  loadAdminCourses();
+  loadUserCourses();
+  alert('✅ تم إضافة الدورة!');
+}
+
+function loadAdminCourses() {
+  const courses = JSON.parse(localStorage.getItem('courses') || '[]');
+  const list = document.getElementById('adminCoursesList');
+  list.innerHTML = courses.length ? courses.map((c, i) => `
+    <div class="course-card">
+      <div class="course-info">
+        <h3>${c.icon} ${c.name}</h3>
+        <p>👨‍🏫 ${c.teacher}</p>
+        <p>💰 السعر: ${c.price}</p>
+        <p>📱 ${c.phone}</p>
+      </div>
+      <button class="delete-btn" onclick="deleteCourse(${i})">🗑️ حذف</button>
+    </div>
+  `).join('') : '<p>لا توجد دورات</p>';
+}
+
+function deleteCourse(index) {
+  if (!confirm('متأكد من الحذف؟')) return;
+  let courses = JSON.parse(localStorage.getItem('courses') || '[]');
+  courses.splice(index, 1);
+  localStorage.setItem('courses', JSON.stringify(courses));
+  loadAdminCourses();
+  loadUserCourses();
+}
+
+function addAdminQuestion() {
+  const question = document.getElementById('adminNewQuestion').value.trim();
+  if (!question) { alert('أكتب الإجابة أولاً'); return; }
+  let questions = JSON.parse(localStorage.getItem('questions') || '[]');
+  questions.push({ email: 'الأدمن', text: question, date: new Date().toLocaleString('ar-SA'), answered: true });
+  localStorage.setItem('questions', JSON.stringify(questions));
+  document.getElementById('adminNewQuestion').value = '';
+  loadAdminQuestions();
+  loadUserQuestions();
+  alert('✅ تم إضافة الإجابة!');
+}
+
+function loadAdminQuestions() {
+  const questions = JSON.parse(localStorage.getItem('questions') || '[]');
+  const list = document.getElementById('adminQuestionsList');
+  list.innerHTML = questions.length ? questions.map((q, i) => `
+    <div class="question-item">
+      <div>
+        <strong>${q.email}</strong>
+        <p>${q.text}</p>
+        <small>${q.date}</small>
+      </div>
+      <button class="delete-btn" onclick="deleteQuestion(${i})">🗑️</button>
+    </div>
+  `).join('') : '<p>لا توجد أسئلة</p>';
+}
+
+function deleteQuestion(index) {
+  if (!confirm('متأكد؟')) return;
+  let questions = JSON.parse(localStorage.getItem('questions') || '[]');
+  questions.splice(index, 1);
+  localStorage.setItem('questions', JSON.stringify(questions));
+  loadAdminQuestions();
+  loadUserQuestions();
+}
+
+function applyDesign() {
+  const design = {
+    main: document.getElementById('mainColor').value,
+    second: document.getElementById('secondColor').value
+  };
+  localStorage.setItem('design', JSON.stringify(design));
+  updateDesign(design);
+  alert('✅ تم تطبيق التصميم!');
+}
+
+function loadDesignSettings() {
+  const design = JSON.parse(localStorage.getItem('design') || '{"main":"#667eea","second":"#764ba2"}');
+  document.getElementById('mainColor').value = design.main;
+  document.getElementById('secondColor').value = design.second;
+  updateDesign(design);
+}
+
+function updateDesign(design) {
+  document.documentElement.style.setProperty('--primary', design.main);
+  document.documentElement.style.setProperty('--secondary', design.second);
+}
+
+function logoutAdmin() {
+  adminLoggedIn = false;
+  document.getElementById('adminLoginSection').style.display = 'block';
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('adminPassword').value = '';
+}
+
+// =================== الذكاء الاصطناعي =================
+let currentChatEmail = "";
+
+function loginChat() {
+  const email = document.getElementById('chatEmail').value.trim();
+  if (!email) { alert('أدخل بريدك الإلكتروني'); return; }
+  currentChatEmail = email;
+  document.getElementById('loginChatSection').style.display = 'none';
+  document.getElementById('chatPanel').style.display = 'block';
+  loadChatHistory();
+}
+
+function sendChatMessage() {
+  const message = document.getElementById('chatInput').value.trim();
+  if (!message) return;
+
+  addChatMessage(currentChatEmail, message, false);
+  
+  setTimeout(() => {
+    let response = aiResponses[message] || "أنا هنا لمساعدتك! يمكنك أن تسأل عن الدورات، الدراسة، أو أي شيء آخر 😊";
+    addChatMessage('الذكاء الاصطناعي', response, true);
+  }, 500);
+
+  document.getElementById('chatInput').value = '';
+}
+
+function addChatMessage(sender, message, isAI) {
+  let chats = JSON.parse(localStorage.getItem('chats') || '[]');
+  chats.push({ sender, message, isAI, date: new Date().toLocaleString('ar-SA') });
+  localStorage.setItem('chats', JSON.stringify(chats));
+  loadChatHistory();
+  document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+}
+
+function loadChatHistory() {
+  const chats = JSON.parse(localStorage.getItem('chats') || '[]');
+  const userChats = chats.filter(c => c.sender === currentChatEmail || c.sender === 'الذكاء الاصطناعي');
+  const messages = document.getElementById('chatMessages');
+  messages.innerHTML = userChats.map(c => `
+    <div class="ai-message ${c.isAI ? 'ai-reply' : 'user-message'}">
+      <strong>${c.sender}:</strong>
+      <p>${c.message}</p>
+      <small>${c.date}</small>
+    </div>
+  `).join('');
+}
+
+function logoutChat() {
+  currentChatEmail = "";
+  document.getElementById('loginChatSection').style.display = 'block';
+  document.getElementById('chatPanel').style.display = 'none';
+  document.getElementById('chatEmail').value = '';
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  loadDesignSettings();
+});
 </script>
 </body>
 </html>
