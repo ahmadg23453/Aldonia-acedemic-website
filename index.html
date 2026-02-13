@@ -3,112 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aldonia Premium Academy</title>
+    <title>منصة الدنيا التعليمية - النسخة الشاملة</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #4f46e5; --bg: #f8fafc; --sidebar: #ffffff; 
-            --card: #ffffff; --text: #1f2937; --whatsapp: #25d366;
-        }
-        body.theme-dark {
-            --bg: #0f172a; --sidebar: #1e293b; --card: #1e293b; --text: #f8fafb; --primary: #818cf8;
-        }
-
+        :root { --primary: #4f46e5; --bg: #f8fafc; --sidebar: #ffffff; --card: #ffffff; --text: #1f2937; --wa: #25d366; }
+        body.theme-dark { --bg: #0f172a; --sidebar: #1e293b; --card: #1e293b; --text: #f8fafb; --primary: #818cf8; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { background: var(--bg); color: var(--text); transition: 0.3s; }
-
         .app-wrapper { display: flex; min-height: 100vh; }
-
+        
         /* Sidebar */
-        aside {
-            width: 280px; background: var(--sidebar); border-left: 1px solid rgba(0,0,0,0.05);
-            padding: 25px; position: fixed; height: 100vh; right: 0; z-index: 100;
-        }
-        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary); margin-bottom: 35px; text-align: center; }
-        .nav-link {
-            padding: 12px 15px; border-radius: 12px; margin-bottom: 5px; cursor: pointer;
-            display: flex; align-items: center; gap: 12px; font-weight: 600; transition: 0.2s;
-            color: var(--text); border: none; background: transparent; width: 100%; text-align: right;
-        }
+        aside { width: 280px; background: var(--sidebar); border-left: 1px solid rgba(0,0,0,0.05); padding: 25px; position: fixed; height: 100vh; right: 0; z-index: 100; }
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary); margin-bottom: 30px; text-align: center; }
+        .nav-link { padding: 12px 15px; border-radius: 12px; margin-bottom: 5px; cursor: pointer; display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--text); border: none; background: transparent; width: 100%; text-align: right; }
         .nav-link:hover, .nav-link.active { background: var(--primary); color: white; }
 
-        main { flex: 1; margin-right: 280px; padding: 35px; }
-
+        main { flex: 1; margin-right: 280px; padding: 30px; }
+        .card { background: var(--card); border-radius: 20px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05); margin-bottom: 20px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { 
-            background: var(--card); border-radius: 20px; padding: 20px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        /* Course & Teacher Cards */
-        .price-tag { color: var(--primary); font-weight: 900; font-size: 1.2rem; margin: 10px 0; }
-        .btn-wa { 
-            background: var(--whatsapp); color: white; text-decoration: none; 
-            display: flex; align-items: center; justify-content: center; gap: 8px; 
-            padding: 10px; border-radius: 10px; font-weight: bold; margin-top: 10px; transition: 0.3s;
-        }
-        .btn-wa:hover { opacity: 0.9; transform: scale(1.02); }
-
-        .section { display: none; }
-        .section.active { display: block; }
-
+        
         input, select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-top: 8px; background: var(--card); color: var(--text); }
-        .btn-prime { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 700; width: 100%; margin-top: 10px; }
-
-        @media (max-width: 768px) { aside { display: none; } main { margin-right: 0; } }
+        .btn-p { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; cursor: pointer; font-weight: 700; width: 100%; margin-top: 10px; }
+        .btn-wa { background: var(--wa); color: white; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; border-radius: 10px; font-weight: bold; margin-top: 10px; }
+        
+        .section { display: none; }
+        .active { display: block; }
+        .badge { background: var(--primary); color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.8rem; }
     </style>
 </head>
-<body id="bodyRoot">
+<body id="bRoot">
 
     <div class="app-wrapper">
         <aside>
-            <div class="logo">الدنيا أكاديمي</div>
-            <button class="nav-link active" onclick="showTab('coursesTab', this)"><i class="fas fa-book"></i> الدورات</button>
-            <button class="nav-link" onclick="showTab('teachersTab', this)"><i class="fas fa-chalkboard-teacher"></i> كادر المعلمين</button>
-            <button class="nav-link" onclick="showTab('adminTab', this)" style="margin-top: auto; color: #ef4444;"><i class="fas fa-lock"></i> لوحة الإدارة</button>
+            <div class="logo">أكاديمية الدنيا</div>
+            <button class="nav-link active" onclick="showTab('tabDash', this)"><i class="fas fa-home"></i> الرئيسية</button>
+            <button class="nav-link" onclick="showTab('tabCourses', this)"><i class="fas fa-book"></i> الدورات</button>
+            <button class="nav-link" onclick="showTab('tabTeachers', this)"><i class="fas fa-chalkboard-teacher"></i> المعلمين</button>
+            <button class="nav-link" onclick="showTab('tabQuiz', this)"><i class="fas fa-vial"></i> الاختبارات</button>
+            <button class="nav-link" onclick="showTab('tabAdmin', this)" style="margin-top: 20px; color: #ef4444;"><i class="fas fa-lock"></i> الإدارة</button>
         </aside>
 
         <main>
-            <div id="coursesTab" class="section active">
-                <h2 style="margin-bottom: 25px;">🚀 استكشف دوراتنا</h2>
-                <div id="coursesList" class="grid"></div>
+            <div id="gate" class="card" style="max-width: 400px; margin: 100px auto; text-align: center;">
+                <h2>دخول الطالب</h2>
+                <input type="text" id="stNameIn" placeholder="أدخل اسمك الكامل">
+                <button class="btn-p" onclick="stLogin()">دخول</button>
             </div>
 
-            <div id="teachersTab" class="section">
-                <h2 style="margin-bottom: 25px;">👨‍🏫 تواصل مع معلمك المفضل</h2>
-                <div id="teachersList" class="grid"></div>
-            </div>
-
-            <div id="adminTab" class="section">
-                <div id="adLogin" class="card" style="max-width: 400px; margin: auto;">
-                    <h3>دخول الإدارة</h3>
-                    <input type="password" id="adPass" placeholder="كلمة السر">
-                    <button class="btn-prime" onclick="checkAdmin()">دخول</button>
+            <div id="content" style="display: none;">
+                <div id="tabDash" class="section active">
+                    <div class="card" style="background: var(--primary); color: white;">
+                        <h1 id="hello"></h1>
+                        <p id="stPrivateNote" style="margin-top: 10px; font-weight: bold;"></p>
+                    </div>
+                    <div class="card">
+                        <h3>🤖 المساعد الذكي AI</h3>
+                        <div id="aiOut" style="height: 60px; font-weight: bold; margin: 10px 0;">أنا هنا لمساعدتك..</div>
+                        <input type="text" id="aiIn" placeholder="اسألني أي شيء..">
+                        <button class="btn-p" onclick="askAI()">إرسال</button>
+                    </div>
                 </div>
 
-                <div id="adPanel" style="display: none;">
-                    <div class="grid">
-                        <div class="card">
-                            <h4>➕ إضافة دورة</h4>
-                            <input type="text" id="cName" placeholder="اسم المادة">
-                            <input type="text" id="cTeacher" placeholder="اسم الأستاذ">
-                            <input type="text" id="cPrice" placeholder="السعر">
-                            <button class="btn-prime" onclick="addCourse()">حفظ الدورة</button>
+                <div id="tabCourses" class="section">
+                    <h2>📚 الدورات المتاحة</h2>
+                    <div id="cList" class="grid" style="margin-top: 20px;"></div>
+                </div>
+
+                <div id="tabTeachers" class="section">
+                    <h2>👨‍🏫 كادر المعلمين</h2>
+                    <div id="tList" class="grid" style="margin-top: 20px;"></div>
+                </div>
+
+                <div id="tabQuiz" class="section">
+                    <div class="card">
+                        <h2>📝 اختبار المعلومات</h2>
+                        <div id="qBox">
+                            <h3 id="qText">لا توجد أسئلة</h3>
+                            <div id="qOpts"></div>
+                            <button class="btn-p" id="nextBtn" style="display:none" onclick="submitQ()">السؤال التالي</button>
                         </div>
-                        <div class="card">
-                            <h4>➕ إضافة معلم</h4>
-                            <input type="text" id="tName" placeholder="اسم المعلم">
-                            <input type="text" id="tSub" placeholder="المادة">
-                            <input type="text" id="tPhone" placeholder="رقم واتساب المعلم (مثال: 9627xxxx)">
-                            <button class="btn-prime" onclick="addTeacher()">حفظ المعلم</button>
+                        <div id="rBox" style="display:none; text-align:center;">
+                            <h2 id="finalS"></h2>
+                            <button class="btn-p" onclick="resetQ()">إعادة</button>
                         </div>
                     </div>
-                    
-                    <div class="card" style="margin-top: 20px;">
-                        <h4>🛠️ إعدادات الإدارة</h4>
-                        <input type="text" id="adPhone" placeholder="رقم واتساب الأدمن الرئيسي">
-                        <button class="btn-prime" onclick="saveAdminPhone()">حفظ رقم الإدارة</button>
-                        <div id="adminManageList" style="margin-top: 20px;"></div>
+                </div>
+
+                <div id="tabAdmin" class="section">
+                    <div id="adLogin" class="card" style="max-width: 400px; margin: auto;">
+                        <h3>🔐 دخول الأدمن</h3>
+                        <input type="password" id="adPass" placeholder="كلمة السر">
+                        <button class="btn-p" onclick="checkAd()">دخول</button>
+                    </div>
+                    <div id="adPanel" style="display: none;">
+                        <div class="grid">
+                            <div class="card">
+                                <h4>➕ إضافة دورة</h4>
+                                <input id="adCN" placeholder="اسم المادة">
+                                <input id="adCT" placeholder="اسم الأستاذ">
+                                <input id="adCP" placeholder="السعر">
+                                <button class="btn-p" onclick="add('course')">حفظ</button>
+                            </div>
+                            <div class="card">
+                                <h4>➕ إضافة معلم</h4>
+                                <input id="adTN" placeholder="اسم المعلم">
+                                <input id="adTS" placeholder="المادة">
+                                <input id="adTP" placeholder="رقم واتساب المعلم">
+                                <button class="btn-p" onclick="add('teacher')">حفظ</button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h4>➕ إضافة سؤال</h4>
+                            <input id="newQ" placeholder="السؤال">
+                            <input id="o1" placeholder="خيار 1"> <input id="o2" placeholder="خيار 2">
+                            <select id="corr"><option value="0">خيار 1 صح</option><option value="1">خيار 2 صح</option></select>
+                            <button class="btn-p" onclick="add('quiz')">حفظ السؤال</button>
+                        </div>
+                        <div class="card">
+                            <h4>👥 إدارة الطلاب والحصص</h4>
+                            <div id="adStList"></div>
+                            <div id="editStBox" style="display:none; margin-top:10px; background:#fefce8; padding:10px; border-radius:10px;">
+                                <h5>تخصيص لـ: <span id="targetN"></span></h5>
+                                <input id="pSched" placeholder="موعد الحصة الخاص">
+                                <button class="btn-p" onclick="saveStP()">حفظ الموعد</button>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h4>📞 رقم واتساب الأدمن (للدفع)</h4>
+                            <input id="adPhone" placeholder="9627xxxxxxxx">
+                            <button class="btn-p" onclick="localStorage.setItem('adPh', document.getElementById('adPhone').value); alert('تم'); render();">حفظ الرقم</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -116,94 +140,59 @@
     </div>
 
     <script>
-        function showTab(id, btn) {
+        let curU = "", curQ = 0, score = 0, sel = null, editT = "";
+        function showTab(id, b) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            btn.classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            document.getElementById(id).classList.add('active'); b.classList.add('active');
         }
-
-        function addCourse() {
-            let data = JSON.parse(localStorage.getItem('courses') || '[]');
-            data.push({
-                id: Date.now(),
-                n: document.getElementById('cName').value,
-                t: document.getElementById('cTeacher').value,
-                p: document.getElementById('cPrice').value
-            });
-            localStorage.setItem('courses', JSON.stringify(data));
-            render();
+        function stLogin() {
+            let n = document.getElementById('stNameIn').value; if(!n) return; curU = n;
+            let sts = JSON.parse(localStorage.getItem('sts') || '[]'); if(!sts.includes(n)) sts.push(n);
+            localStorage.setItem('sts', JSON.stringify(sts));
+            document.getElementById('gate').style.display='none'; document.getElementById('content').style.display='block';
+            document.getElementById('hello').innerText = `أهلاً بك يا ${n} ✨`; render();
         }
-
-        function addTeacher() {
-            let data = JSON.parse(localStorage.getItem('teachers') || '[]');
-            data.push({
-                id: Date.now(),
-                n: document.getElementById('tName').value,
-                s: document.getElementById('tSub').value,
-                ph: document.getElementById('tPhone').value
-            });
-            localStorage.setItem('teachers', JSON.stringify(data));
-            render();
+        function add(type) {
+            let data = JSON.parse(localStorage.getItem(type) || '[]');
+            if(type==='course') data.push({id:Date.now(), n:document.getElementById('adCN').value, t:document.getElementById('adCT').value, p:document.getElementById('adCP').value});
+            else if(type==='teacher') data.push({id:Date.now(), n:document.getElementById('adTN').value, s:document.getElementById('adTS').value, ph:document.getElementById('adTP').value});
+            else if(type==='quiz') data.push({t:document.getElementById('newQ').value, o:[document.getElementById('o1').value, document.getElementById('o2').value], c:document.getElementById('corr').value});
+            localStorage.setItem(type, JSON.stringify(data)); render(); alert("تمت الإضافة");
         }
-
-        function saveAdminPhone() {
-            localStorage.setItem('admin_phone', document.getElementById('adPhone').value);
-            alert("تم الحفظ");
-            render();
-        }
-
         function render() {
-            const adminPhone = localStorage.getItem('admin_phone') || "";
-            const courses = JSON.parse(localStorage.getItem('courses') || '[]');
-            const teachers = JSON.parse(localStorage.getItem('teachers') || '[]');
+            const adPh = localStorage.getItem('adPh') || "";
+            const courses = JSON.parse(localStorage.getItem('course') || '[]');
+            const teachers = JSON.parse(localStorage.getItem('teacher') || '[]');
+            const sts = JSON.parse(localStorage.getItem('sts') || '[]');
+            const qs = JSON.parse(localStorage.getItem('quiz') || '[]');
 
-            // عرض الدورات (ترتبط بواتساب الأدمن للدفع)
-            document.getElementById('coursesList').innerHTML = courses.map(c => `
-                <div class="card">
-                    <h3>${c.n}</h3>
-                    <p style="opacity:0.7">مع الأستاذ: ${c.t}</p>
-                    <p class="price-tag">${c.p}</p>
-                    <a href="https://wa.me/${adminPhone}?text=مرحباً، أريد الاشتراك في دورة ${c.n}" class="btn-wa" target="_blank">
-                        <i class="fab fa-whatsapp"></i> اشترك الآن (دفع)
-                    </a>
-                </div>
-            `).join('');
-
-            // عرض المعلمين (يرتبط بواتساب المعلم الخاص)
-            document.getElementById('teachersList').innerHTML = teachers.map(t => `
-                <div class="card" style="text-align:center">
-                    <i class="fas fa-user-circle fa-4x" style="color:var(--primary); margin-bottom:10px;"></i>
-                    <h3>${t.n}</h3>
-                    <p class="badge" style="background:var(--primary); color:white; padding:4px 12px; border-radius:15px; display:inline-block">${t.s}</p>
-                    <a href="https://wa.me/${t.ph}?text=مرحباً أستاذ ${t.n}، لدي استفسار.." class="btn-wa" target="_blank" style="background:#075e54">
-                        <i class="fab fa-whatsapp"></i> تواصل مع المعلم
-                    </a>
-                </div>
-            `).join('');
-
-            // لوحة الحذف للأدمن
-            document.getElementById('adminManageList').innerHTML = `
-                <hr style="margin:20px 0; opacity:0.1">
-                ${courses.map(c => `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>دورة: ${c.n}</span> <button onclick="deleteItem('courses', ${c.id})">حذف</button></div>`).join('')}
-                ${teachers.map(t => `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>معلم: ${t.n}</span> <button onclick="deleteItem('teachers', ${t.id})">حذف</button></div>`).join('')}
-            `;
-        }
-
-        function deleteItem(type, id) {
-            let data = JSON.parse(localStorage.getItem(type));
-            localStorage.setItem(type, JSON.stringify(data.filter(x => x.id !== id)));
-            render();
-        }
-
-        function checkAdmin() {
-            if(document.getElementById('adPass').value === "AAAA1234") {
-                document.getElementById('adLogin').style.display = 'none';
-                document.getElementById('adPanel').style.display = 'block';
-                render();
+            document.getElementById('cList').innerHTML = courses.map(c => `<div class="card"><h3>${c.n}</h3><p>الأستاذ: ${c.t}</p><b style="color:var(--primary)">${c.p}</b><a href="https://wa.me/${adPh}?text=أريد التسجيل ب${c.n}" class="btn-wa" target="_blank">سجل الآن (دفع)</a><button onclick="del('course', ${c.id})" style="color:red; background:none; border:none; margin-top:5px; cursor:pointer">حذف</button></div>`).join('');
+            document.getElementById('tList').innerHTML = teachers.map(t => `<div class="card" style="text-align:center"><h3>${t.n}</h3><span class="badge">${t.s}</span><a href="https://wa.me/${t.ph}" class="btn-wa" target="_blank" style="background:#075e54">واتساب المعلم</a><button onclick="del('teacher', ${t.id})" style="color:red; background:none; border:none; margin-top:5px; cursor:pointer">حذف</button></div>`).join('');
+            document.getElementById('adStList').innerHTML = sts.map(s => `<button onclick="openE('${s}')" style="padding:5px; margin:2px;">${s}</button>`).join('');
+            
+            if(curU) { document.getElementById('stPrivateNote').innerText = localStorage.getItem('p_'+curU) ? "📌 موعدك: " + localStorage.getItem('p_'+curU) : ""; }
+            if(qs.length > 0 && curQ < qs.length) {
+                const q = qs[curQ]; document.getElementById('qText').innerText = q.t;
+                document.getElementById('qOpts').innerHTML = q.o.map((o,i) => `<div onclick="sel=${i}; this.style.color='blue'" style="padding:10px; cursor:pointer; background:#eee; margin-top:5px; border-radius:5px;">${o}</div>`).join('');
+                document.getElementById('nextBtn').style.display='block';
             }
         }
-
+        function del(type, id) {
+            let data = JSON.parse(localStorage.getItem(type));
+            localStorage.setItem(type, JSON.stringify(data.filter(x => x.id !== id))); render();
+        }
+        function openE(n) { editT = n; document.getElementById('editStBox').style.display='block'; document.getElementById('targetN').innerText=n; }
+        function saveStP() { localStorage.setItem('p_'+editT, document.getElementById('pSched').value); alert("تم الحفظ"); render(); }
+        function askAI() { document.getElementById('aiOut').innerText = "جاري التفكير..."; setTimeout(() => { document.getElementById('aiOut').innerText = "AI: نصيحتي لك هي تنظيم وقتك جيداً والتركيز على الأساسيات!"; }, 600); }
+        function checkAd() { if(document.getElementById('adPass').value === "AAAA1234") { document.getElementById('adLogin').style.display='none'; document.getElementById('adPanel').style.display='block'; render(); } }
+        function submitQ() {
+            const qs = JSON.parse(localStorage.getItem('quiz') || '[]');
+            if(sel == qs[curQ].c) score++; curQ++; sel = null;
+            if(curQ < qs.length) render();
+            else { document.getElementById('qBox').style.display='none'; document.getElementById('rBox').style.display='block'; document.getElementById('finalS').innerText=`نتيجتك: ${score}/${qs.length}`; }
+        }
+        function resetQ() { curQ=0; score=0; document.getElementById('qBox').style.display='block'; document.getElementById('rBox').style.display='none'; render(); }
         window.onload = render;
     </script>
 </body>
