@@ -3,224 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aldonia Comprehensive Platform | المنصة المتكاملة</title>
+    <title>Aldonia Premium LMS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #4f46e5; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; }
-        body.theme-dark { --primary: #818cf8; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; }
-        body.theme-royal { --primary: #b45309; --bg: #fffbeb; --card: #ffffff; --text: #78350f; }
+        :root {
+            --primary: #4f46e5; --secondary: #6366f1; --bg: #f3f4f6; 
+            --sidebar: #ffffff; --card: #ffffff; --text: #1f2937; --success: #10b981;
+        }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--bg); color: var(--text); transition: 0.3s ease; }
+        /* الثيم الليلي الفخم */
+        body.theme-dark {
+            --bg: #0f172a; --sidebar: #1e293b; --card: #1e293b; --text: #f8fafb; --primary: #818cf8;
+        }
 
-        nav { background: var(--card); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
-        .nav-btn { padding: 8px 15px; border-radius: 10px; border: none; cursor: pointer; background: rgba(0,0,0,0.05); color: var(--text); font-weight: bold; }
-        .nav-btn.active { background: var(--primary); color: white; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--text); transition: 0.3s; overflow-x: hidden; }
 
-        .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
-        .card { background: var(--card); border-radius: 20px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.05); }
+        .app-container { display: flex; min-height: 100vh; }
 
-        input, select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; margin-top: 8px; background: var(--card); color: var(--text); }
-        .btn { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
-        .btn-del { background: #fee2e2; color: #ef4444; border: none; padding: 5px 10px; border-radius: 8px; cursor: pointer; }
+        /* Sidebar الجانبي المرتب */
+        aside {
+            width: 260px; background: var(--sidebar); border-left: 1px solid rgba(0,0,0,0.05);
+            display: flex; flex-direction: column; padding: 25px; position: fixed; height: 100vh; right: 0;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.02); z-index: 100;
+        }
 
-        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 40px; text-align: center; letter-spacing: -1px; }
+        
+        .nav-link {
+            padding: 14px 18px; border-radius: 12px; margin-bottom: 8px; cursor: pointer;
+            display: flex; align-items: center; gap: 12px; font-weight: 600; transition: 0.2s;
+            color: var(--text); opacity: 0.7; border: none; background: transparent; width: 100%; text-align: right;
+        }
+        .nav-link:hover, .nav-link.active { background: var(--primary); color: white; opacity: 1; }
 
-        /* Quiz & AI Styles */
-        .chat-box { height: 120px; overflow-y: auto; background: rgba(0,0,0,0.02); padding: 10px; border-radius: 10px; margin-bottom: 10px; font-size: 0.9rem; }
-        .quiz-opt { padding: 10px; background: rgba(0,0,0,0.03); border-radius: 10px; margin-top: 5px; cursor: pointer; border: 2px solid transparent; }
-        .quiz-opt.selected { border-color: var(--primary); background: rgba(79, 70, 229, 0.1); }
+        /* Content Area */
+        main { flex: 1; margin-right: 260px; padding: 40px; }
+
+        .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        
+        /* Dashboard Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { 
+            background: var(--card); border-radius: 24px; padding: 25px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05);
+            position: relative; overflow: hidden;
+        }
+        
+        /* Professional AI Chat */
+        .ai-box { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; }
+        .chat-display { height: 180px; overflow-y: auto; margin: 15px 0; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 15px; font-size: 0.9rem; }
+
+        /* Tables & Lists */
+        .list-row { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 20px; background: var(--bg); border-radius: 15px; margin-bottom: 10px;
+        }
+
+        /* Controls */
+        input, select { 
+            width: 100%; padding: 14px; border-radius: 14px; border: 2px solid #e5e7eb; 
+            margin-top: 10px; outline: none; transition: 0.2s; background: var(--card); color: var(--text);
+        }
+        input:focus { border-color: var(--primary); }
+        .btn-action { 
+            background: var(--primary); color: white; border: none; padding: 14px 25px; 
+            border-radius: 14px; cursor: pointer; font-weight: 700; width: 100%; margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+        .btn-action:hover { transform: translateY(-2px); }
+
+        .badge { padding: 4px 12px; border-radius: 8px; font-size: 0.75rem; background: var(--success); color: white; }
+
+        /* Tab Management */
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            aside { width: 80px; padding: 15px 5px; }
+            aside .nav-link span, aside .logo { display: none; }
+            main { margin-right: 80px; padding: 20px; }
+        }
     </style>
 </head>
-<body id="mainBody">
+<body id="bodyRoot">
 
-    <nav>
-        <div style="font-weight: 900; color: var(--primary); font-size: 1.3rem;">ALDONIA ACADEMY</div>
-        <div>
-            <button class="nav-btn active" onclick="showTab('stTab')">الطالب</button>
-            <button class="nav-btn" onclick="showTab('adTab')">المدير</button>
-        </div>
-    </nav>
+    <div class="app-container">
+        <aside>
+            <div class="logo">ALDONIA</div>
+            <button class="nav-link active" onclick="showTab('stDash', this)"><i class="fas fa-home"></i> <span>الرئيسية</span></button>
+            <button class="nav-link" onclick="showTab('teachersArea', this)"><i class="fas fa-chalkboard-teacher"></i> <span>المعلمين</span></button>
+            <button class="nav-link" onclick="showTab('quizArea', this)"><i class="fas fa-file-alt"></i> <span>الاختبارات</span></button>
+            <button class="nav-link" onclick="showTab('adminArea', this)" style="margin-top: auto; border-top: 1px solid #eee; padding-top: 20px;"><i class="fas fa-user-shield"></i> <span>الإدارة</span></button>
+        </aside>
 
-    <div class="container">
-        <div id="stTab" class="tab-content active">
-            <div id="stLogin" class="card" style="max-width: 400px; margin: auto; text-align: center;">
-                <h2>دخول الطالب</h2>
-                <input type="text" id="stNameIn" placeholder="اسمك الكامل">
-                <button class="btn" onclick="loginStudent()">دخول</button>
+        <main>
+            <div id="loginGate" class="card" style="max-width: 450px; margin: 10vh auto; text-align: center;">
+                <i class="fas fa-user-graduate fa-3x" style="color: var(--primary); margin-bottom: 20px;"></i>
+                <h2>مرحباً بك في المنصة</h2>
+                <p style="opacity: 0.6; margin-bottom: 20px;">الرجاء إدخال اسمك للوصول إلى دروسك</p>
+                <input type="text" id="stNameInput" placeholder="اكتب اسمك هنا...">
+                <button class="btn-action" onclick="loginStudent()">دخول المنصة <i class="fas fa-arrow-left"></i></button>
             </div>
 
-            <div id="stDash" style="display: none;">
-                <div class="card" style="background: var(--primary); color: white;">
-                    <h2 id="helloSt"></h2>
-                    <p id="stPrivateNote"></p>
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
-                    <div class="card">
-                        <h3>👨‍🏫 معلموك</h3>
-                        <div id="stTeachersList"></div>
-                    </div>
-                    <div class="card">
-                        <h3>🤖 المساعد الذكي</h3>
-                        <div id="aiChat" class="chat-box">أهلاً بك!</div>
-                        <input type="text" id="aiQuery" placeholder="اسألني..">
-                        <button class="btn" onclick="talkToAI()">إرسال</button>
-                    </div>
-                </div>
-
-                <div class="card" id="quizArea">
-                    <h3>📝 اختبار اليوم</h3>
-                    <div id="qContent"><p id="qText">لا توجد أسئلة.</p><div id="qOpts"></div><button class="btn" id="nextQBtn" style="display:none" onclick="nextQuestion()">السؤال التالي</button></div>
-                    <div id="quizResult" style="display:none; text-align:center;"><h3 id="resScore"></h3><button class="btn" onclick="resetQuiz()">إعادة</button></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="adTab" class="tab-content">
-            <div id="adLogin" class="card" style="max-width: 400px; margin: auto;">
-                <h3>دخول الإدارة 🔐</h3>
-                <input type="password" id="adPass" placeholder="كلمة المرور">
-                <button class="btn" onclick="loginAdmin()">تحقق</button>
-            </div>
-
-            <div id="adPanel" style="display: none;">
-                <div class="card">
-                    <h4>🎨 المظهر: <button onclick="changeTheme('theme-dark')">ليلي</button> <button onclick="changeTheme('theme-royal')">ملكي</button> <button onclick="changeTheme('')">أساسي</button></h4>
-                </div>
-
-                <div class="card">
-                    <h4>👨‍🏫 إدارة المعلمين</h4>
-                    <div style="display: flex; gap: 5px;">
-                        <input type="text" id="tName" placeholder="اسم المعلم">
-                        <input type="text" id="tSub" placeholder="المادة">
-                        <button class="btn" style="width: 100px; margin:0" onclick="addTeacher()">إضافة</button>
-                    </div>
-                    <div id="adTeachersList" style="margin-top: 10px;"></div>
-                </div>
-
-                <div class="card">
-                    <h4>👥 الطلاب: <div id="adStList"></div></h4>
-                </div>
-
-                <div id="editBox" class="card" style="display:none; background:#fffbeb">
-                    <h4>تخصيص لـ <span id="targetSt"></span>:</h4>
-                    <input type="text" id="p_sched" placeholder="الموعد"><button class="btn" onclick="savePrivate()">حفظ</button>
-                </div>
-
-                <div class="card">
-                    <h4>❓ بنك الأسئلة</h4>
-                    <input type="text" id="newQ" placeholder="السؤال">
-                    <input type="text" id="o1" placeholder="خيار 1"> <input type="text" id="o2" placeholder="خيار 2">
-                    <select id="correctO"><option value="0">خيار 1 صح</option><option value="1">خيار 2 صح</option></select>
-                    <button class="btn" onclick="addQuizQ()">إضافة سؤال</button>
-                </div>
+            <div id="mainDashboard" style="display: none;">
                 
-                <button class="btn" style="background: #64748b;" onclick="location.reload()">خروج</button>
+                <div class="header-bar">
+                    <div>
+                        <h1 id="userGreeting">أهلاً بك</h1>
+                        <p id="stPrivateMsg" style="color: var(--primary); font-weight: 600;"></p>
+                    </div>
+                    <div class="badge" id="statusBadge">طالب نشط</div>
+                </div>
+
+                <div id="stDash" class="section active">
+                    <div class="grid">
+                        <div class="card ai-box">
+                            <h3><i class="fas fa-robot"></i> مساعدك الذكي AI</h3>
+                            <div class="chat-display" id="aiDisplay">كيف يمكنني مساعدتك في دراستك اليوم؟</div>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="text" id="aiInp" placeholder="اسألني أي شيء..." style="margin:0; border:none;">
+                                <button class="btn-action" style="margin:0; width: 50px; background: white; color: var(--primary);" onclick="askAI()"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3><i class="fas fa-clock"></i> حصصك المجدولة</h3>
+                            <div id="stPersonalSched" style="margin-top: 15px;">لا يوجد حصص خاصة حالياً.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="teachersArea" class="section">
+                    <div class="card">
+                        <h2>👨‍🏫 كادر المعلمين</h2>
+                        <div id="stTeachersList" class="grid" style="margin-top: 20px;"></div>
+                    </div>
+                </div>
+
+                <div id="quizArea" class="section">
+                    <div class="card" id="quizCard">
+                        <h2>📝 الاختبارات المتاحة</h2>
+                        <div id="quizBox" style="margin-top: 20px;">
+                            <div id="qContent">
+                                <h3 id="qText">لا يوجد اختبارات حالياً.</h3>
+                                <div id="qOpts"></div>
+                                <button class="btn-action" id="nextBtn" style="display:none" onclick="submitQ()">السؤال التالي</button>
+                            </div>
+                            <div id="resBox" style="display:none; text-align:center;">
+                                <h2 id="finalScore"></h2>
+                                <button class="btn-action" onclick="resetQuiz()">إعادة الاختبار</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="adminArea" class="section">
+                    <div id="adLoginCard" class="card" style="max-width: 400px; margin: auto;">
+                        <h3>طلب صلاحية الإدارة</h3>
+                        <input type="password" id="adPass" placeholder="كلمة المرور">
+                        <button class="btn-action" onclick="adminAuth()">تحقق</button>
+                    </div>
+
+                    <div id="adControlPanel" style="display: none;">
+                        <div class="grid">
+                            <div class="card">
+                                <h4>🎨 التحكم بالثيم</h4>
+                                <button class="btn-action" onclick="setTheme('theme-dark')">الثيم الليلي</button>
+                                <button class="btn-action" style="background: #fff; color: #000;" onclick="setTheme('')">الثيم الفاتح</button>
+                            </div>
+                            <div class="card">
+                                <h4>👥 إدارة الطلاب</h4>
+                                <div id="adStList" style="max-height: 200px; overflow-y: auto;"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" id="stEditor" style="display: none; background: #fefce8;">
+                            <h4>تخصيص بيانات: <span id="targetName"></span></h4>
+                            <input type="text" id="p_sched" placeholder="موعد الحصص">
+                            <button class="btn-action" onclick="savePrivate()">حفظ البيانات</button>
+                        </div>
+
+                        <div class="card">
+                            <h4>👨‍🏫 إضافة معلم</h4>
+                            <input type="text" id="tName" placeholder="اسم المعلم">
+                            <input type="text" id="tSub" placeholder="المادة">
+                            <button class="btn-action" onclick="addTeacher()">إضافة المعلم</button>
+                        </div>
+
+                        <div class="card">
+                            <h4>📝 إضافة سؤال</h4>
+                            <input type="text" id="newQ" placeholder="السؤال">
+                            <input type="text" id="optA" placeholder="خيار 1">
+                            <input type="text" id="optB" placeholder="خيار 2">
+                            <select id="correct"><option value="0">خيار 1 هو الصحيح</option><option value="1">خيار 2 هو الصحيح</option></select>
+                            <button class="btn-action" onclick="addQuiz()">حفظ السؤال</button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
+        </main>
     </div>
 
     <script>
-        const PASS = "AAAA1234";
-        let curSt = "", qIdx = 0, score = 0, selected = null, editT = "";
+        let currentUser = "";
+        let currentQ = 0, score = 0, selected = null, editingSt = "";
 
-        function showTab(id) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        function showTab(id, btn) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            event.currentTarget.classList.add('active');
+            btn.classList.add('active');
         }
 
-        // Student
+        // Student Logic
         function loginStudent() {
-            const n = document.getElementById('stNameIn').value; if(!n) return;
-            curSt = n;
-            let sts = JSON.parse(localStorage.getItem('sts') || '[]');
-            if(!sts.includes(n)) sts.push(n); localStorage.setItem('sts', JSON.stringify(sts));
-            document.getElementById('stLogin').style.display = 'none';
-            document.getElementById('stDash').style.display = 'block';
-            document.getElementById('helloSt').innerText = `أهلاً ${n}`;
+            const n = document.getElementById('stNameInput').value;
+            if(!n) return;
+            currentUser = n;
+            let list = JSON.parse(localStorage.getItem('ald_sts') || '[]');
+            if(!list.includes(n)) list.push(n);
+            localStorage.setItem('ald_sts', JSON.stringify(list));
+
+            document.getElementById('loginGate').style.display = 'none';
+            document.getElementById('mainDashboard').style.display = 'block';
+            document.getElementById('userGreeting').innerText = `أهلاً بك يا ${n} ✨`;
             render();
         }
 
-        function talkToAI() {
-            const q = document.getElementById('aiQuery').value;
-            const chat = document.getElementById('aiChat');
-            chat.innerHTML += `<div>أنت: ${q}</div>`;
-            setTimeout(() => { chat.innerHTML += `<div style="color:blue">AI: نصيحتي لك هي التركيز على الدروس الصعبة أولاً!</div>`; }, 500);
+        function askAI() {
+            const q = document.getElementById('aiInp').value;
+            const display = document.getElementById('aiDisplay');
+            if(!q) return;
+            display.innerHTML += `<div style="text-align:left; opacity:0.8;">أنت: ${q}</div>`;
+            setTimeout(() => {
+                display.innerHTML += `<div style="font-weight:bold; margin-top:5px;">AI: نصيحة ذكية.. بخصوص "${q}"، أفضل طريقة هي المذاكرة لمدة 50 دقيقة ثم راحة 10 دقائق.</div>`;
+                display.scrollTop = display.scrollHeight;
+            }, 600);
+            document.getElementById('aiInp').value = "";
         }
 
-        // Admin
-        function loginAdmin() {
-            if(document.getElementById('adPass').value === PASS) {
-                document.getElementById('adLogin').style.display='none';
-                document.getElementById('adPanel').style.display='block';
+        // Admin Logic
+        function adminAuth() {
+            if(document.getElementById('adPass').value === "AAAA1234") {
+                document.getElementById('adLoginCard').style.display = 'none';
+                document.getElementById('adControlPanel').style.display = 'block';
                 render();
             }
         }
 
         function addTeacher() {
-            let ts = JSON.parse(localStorage.getItem('teachers') || '[]');
+            let ts = JSON.parse(localStorage.getItem('ald_ts') || '[]');
             ts.push({id: Date.now(), n: document.getElementById('tName').value, s: document.getElementById('tSub').value});
-            localStorage.setItem('teachers', JSON.stringify(ts));
+            localStorage.setItem('ald_ts', JSON.stringify(ts));
             render();
         }
 
-        function delTeacher(id) {
-            let ts = JSON.parse(localStorage.getItem('teachers') || '[]');
-            localStorage.setItem('teachers', JSON.stringify(ts.filter(x => x.id !== id)));
-            render();
+        function addQuiz() {
+            let qs = JSON.parse(localStorage.getItem('ald_qs') || '[]');
+            qs.push({t: document.getElementById('newQ').value, o: [document.getElementById('optA').value, document.getElementById('optB').value], c: document.getElementById('correct').value});
+            localStorage.setItem('ald_qs', JSON.stringify(qs));
+            alert("تم حفظ السؤال");
         }
 
-        function addQuizQ() {
-            let qs = JSON.parse(localStorage.getItem('qs') || '[]');
-            qs.push({text: document.getElementById('newQ').value, opts: [document.getElementById('o1').value, document.getElementById('o2').value], correct: document.getElementById('correctO').value});
-            localStorage.setItem('qs', JSON.stringify(qs));
-            alert("تم!");
+        function openEdit(n) {
+            editingSt = n;
+            document.getElementById('stEditor').style.display = 'block';
+            document.getElementById('targetName').innerText = n;
+        }
+
+        function savePrivate() {
+            localStorage.setItem('p_'+editingSt, document.getElementById('p_sched').value);
+            alert("تم الحفظ للطالب " + editingSt);
+            document.getElementById('stEditor').style.display = 'none';
+            render();
         }
 
         function render() {
-            document.getElementById('mainBody').className = localStorage.getItem('theme') || '';
-            const ts = JSON.parse(localStorage.getItem('teachers') || '[]');
-            const sts = JSON.parse(localStorage.getItem('sts') || '[]');
+            document.getElementById('bodyRoot').className = localStorage.getItem('ald_theme') || '';
+            const ts = JSON.parse(localStorage.getItem('ald_ts') || '[]');
+            const sts = JSON.parse(localStorage.getItem('ald_sts') || '[]');
+            const qs = JSON.parse(localStorage.getItem('ald_qs') || '[]');
 
-            // Student View
-            document.getElementById('stTeachersList').innerHTML = ts.map(t => `<div class="list-item">${t.n} (${t.s})</div>`).join('');
-            if(curSt) {
-                const p = JSON.parse(localStorage.getItem('p_'+curSt) || '{}');
-                document.getElementById('stPrivateNote').innerText = p.s ? `جدولك: ${p.s}` : "";
+            // Render Teachers
+            document.getElementById('stTeachersList').innerHTML = ts.map(t => `
+                <div class="card" style="text-align:center;">
+                    <i class="fas fa-user-circle fa-3x" style="color:var(--primary); margin-bottom:10px;"></i>
+                    <h4>${t.n}</h4>
+                    <p style="opacity:0.6;">${t.s}</p>
+                </div>
+            `).join('');
+
+            // Render Admin Student List
+            document.getElementById('adStList').innerHTML = sts.map(s => `
+                <div class="list-row"><span>${s}</span> <button class="badge" style="border:none; cursor:pointer;" onclick="openEdit('${s}')">تخصيص</button></div>
+            `).join('');
+
+            // Private Data
+            if(currentUser) {
+                const p = localStorage.getItem('p_'+currentUser);
+                document.getElementById('stPersonalSched').innerHTML = p ? `<div class="badge">${p}</div>` : "لا يوجد مواعيد مخصصة لك.";
             }
-            loadQuiz();
 
-            // Admin View
-            document.getElementById('adTeachersList').innerHTML = ts.map(t => `<div class="list-item"><span>${t.n}</span> <button class="btn-del" onclick="delTeacher(${t.id})">حذف</button></div>`).join('');
-            document.getElementById('adStList').innerHTML = sts.map(s => `<button onclick="openEdit('${s}')">${s}</button> `).join('');
+            // Quiz Load
+            if(qs.length > 0) {
+                const q = qs[currentQ];
+                document.getElementById('qText').innerText = q.t;
+                document.getElementById('qOpts').innerHTML = q.o.map((o,i) => `
+                    <div class="list-row" style="cursor:pointer; border:1px solid #ddd;" onclick="selected=${i}; this.style.borderColor='var(--primary)'">${o}</div>
+                `).join('');
+                document.getElementById('nextBtn').style.display = 'block';
+            }
         }
 
-        function loadQuiz() {
-            const qs = JSON.parse(localStorage.getItem('qs') || '[]');
-            if(qs.length === 0) return;
-            const q = qs[qIdx];
-            document.getElementById('qText').innerText = q.text;
-            document.getElementById('qOpts').innerHTML = q.opts.map((o, i) => `<div class="quiz-opt" id="o_${i}" onclick="selected=${i}">${o}</div>`).join('');
-            document.getElementById('nextQBtn').style.display = 'block';
+        function submitQ() {
+            const qs = JSON.parse(localStorage.getItem('ald_qs') || '[]');
+            if(selected == qs[currentQ].c) score++;
+            currentQ++; selected = null;
+            if(currentQ < qs.length) render();
+            else {
+                document.getElementById('qContent').style.display = 'none';
+                document.getElementById('resBox').style.display = 'block';
+                document.getElementById('finalScore').innerText = `نتيجتك: ${score} من ${qs.length}`;
+            }
         }
 
-        function nextQuestion() {
-            const qs = JSON.parse(localStorage.getItem('qs') || '[]');
-            if(selected == qs[qIdx].correct) score++;
-            qIdx++; selected = null;
-            if(qIdx < qs.length) loadQuiz();
-            else { document.getElementById('qContent').style.display='none'; document.getElementById('quizResult').style.display='block'; document.getElementById('resScore').innerText=`نتيجتك: ${score}/${qs.length}`; }
-        }
-
-        function openEdit(n) { editT = n; document.getElementById('editBox').style.display='block'; document.getElementById('targetSt').innerText=n; }
-        function savePrivate() { localStorage.setItem('p_'+editT, JSON.stringify({s: document.getElementById('p_sched').value})); alert("تم!"); }
-        function changeTheme(t) { document.getElementById('mainBody').className = t; localStorage.setItem('theme', t); }
-        function resetQuiz() { qIdx=0; score=0; document.getElementById('qContent').style.display='block'; document.getElementById('quizResult').style.display='none'; loadQuiz(); }
+        function setTheme(t) { localStorage.setItem('ald_theme', t); render(); }
+        function resetQuiz() { currentQ=0; score=0; document.getElementById('qContent').style.display='block'; document.getElementById('resBox').style.display='none'; render(); }
 
         window.onload = render;
     </script>
