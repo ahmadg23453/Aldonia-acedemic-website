@@ -3,206 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aldonia Academy | إدارة المركز</title>
+    <title>Aldonia Academy | المنصة المتكاملة</title>
     <style>
-        :root { --primary: #2563eb; --accent: #10b981; --news-bg: #fff7ed; --news-text: #c2410c; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #f8fafc; color: #1e293b; }
+        /* إعدادات الألوان المتغيرة */
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
 
-        /* Navbar */
-        nav { background: white; padding: 1rem 2rem; display: flex; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.1); sticky; top: 0; z-index: 1000; }
-        .logo { font-weight: bold; font-size: 1.5rem; color: var(--primary); }
-        .nav-btn { padding: 8px 18px; cursor: pointer; border-radius: 8px; font-weight: 600; border: none; background: #eee; transition: 0.3s; }
+        /* الثيمات المتاحة */
+        body.theme-classic { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; }
+        body.theme-dark { --primary: #3b82f6; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; }
+        body.theme-royal { --primary: #8b5cf6; --bg: #faf5ff; --card: #ffffff; --text: #4c1d95; }
+        body.theme-modern { --primary: #10b981; --bg: #f0fdf4; --card: #ffffff; --text: #064e3b; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background: var(--bg); color: var(--text); transition: all 0.4s ease; }
+
+        nav { background: var(--card); padding: 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-weight: bold; font-size: 1.4rem; color: var(--primary); }
+        .nav-btn { padding: 8px 15px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; background: rgba(0,0,0,0.05); color: var(--text); margin-right: 5px; }
         .nav-btn.active { background: var(--primary); color: white; }
 
-        /* News Ticker (شريط الأخبار) */
-        .news-bar { background: var(--news-bg); color: var(--news-text); padding: 12px; text-align: center; font-weight: bold; border-bottom: 2px solid #fed7aa; display: none; }
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+        .card { background: var(--card); border-radius: 15px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 1.5rem; border: 1px solid rgba(0,0,0,0.05); }
 
-        .hero { height: 300px; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1523050853063-bd8012fec20f?auto=format&fit=crop&w=1200'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: white; text-align: center; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-top: 8px; background: var(--card); color: var(--text); }
+        .btn-main { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 10px; }
 
-        .container { max-width: 1100px; margin: auto; padding: 0 1rem; }
-        .card { background: white; border-radius: 15px; padding: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 1.5rem; border: 1px solid #eef2f6; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; border-bottom: 1px solid rgba(0,0,0,0.1); text-align: center; }
+        th { background: rgba(0,0,0,0.02); }
 
-        /* Tables & UI */
-        .table-wrapper { overflow-x: auto; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #eee; }
-        th { background: #f1f5f9; }
-
-        .btn-action { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; }
-        .btn-wa { background: #25D366; color: white; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; display: inline-block; }
-
-        .admin-section { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-top: 5px; }
+        .theme-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px; }
+        .theme-opt { height: 40px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; display: flex; align-items: center; justify-content: center; font-size: 12px; color: white; font-weight: bold; }
 
         .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body>
-
-    <div id="newsTicker" class="news-bar"></div>
+<body class="theme-classic" id="mainBody">
 
     <nav>
-        <div class="logo">Aldonia Academy 🎓</div>
+        <div class="logo">Aldonia Academy</div>
         <div>
-            <button class="nav-btn active" onclick="showTab('stView')">الطالب</button>
-            <button class="nav-btn" onclick="showTab('adView')">الإدارة</button>
+            <button class="nav-btn active" onclick="switchTab('stTab')">بوابة الطالب</button>
+            <button class="nav-btn" onclick="switchTab('adTab')">لوحة المدير</button>
         </div>
     </nav>
 
-    <div id="stView" class="tab-content active">
-        <div class="hero">
-            <div><h1>أكاديمية الدونيا للتعليم</h1><p>تميز، إبداع، مستقبل</p></div>
-        </div>
-        <div class="container" style="margin-top: -40px;">
-            <div id="stLogin" class="card" style="max-width: 400px; margin-left: auto; margin-right: auto;">
-                <h3 style="text-align:center">دخول الطالب</h3>
-                <input type="text" id="stName" placeholder="أدخل اسمك">
-                <button class="btn-action" style="margin-top:10px" onclick="stLogin()">دخول</button>
+    <div class="container">
+        <div id="stTab" class="tab-content active">
+            <div id="stLogin" class="card" style="max-width: 400px; margin: auto; text-align: center;">
+                <h2>مرحباً بك</h2>
+                <input type="text" id="stNameInput" placeholder="أدخل اسمك الرباعي">
+                <button class="btn-main" onclick="stLoginAction()">دخول للمركز</button>
             </div>
 
-            <div id="stDashboard" style="display:none">
-                <div class="card" id="announcementBox" style="display:none; border-right: 5px solid #f97316;">
-                    <h4 style="color: #f97316;">📣 إعلان هام:</h4>
-                    <p id="announcementText"></p>
+            <div id="stDashboard" style="display: none;">
+                <div id="announcement" class="card" style="display: none; background: #fff7ed; border-right: 5px solid #f97316;">
+                    <h4 style="color: #c2410c;">📢 إعلان المركز:</h4>
+                    <p id="announcementText" style="color: #c2410c;"></p>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px;">
-                    <div class="card">
-                        <h3>📅 جدول الحصص اليومي</h3>
-                        <div class="table-wrapper">
-                            <table><thead><tr><th>اليوم</th><th>الحصص</th></tr></thead><tbody id="stSched"></tbody></table>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3>👨‍🏫 تواصل مع الأساتذة</h3>
-                        <div id="stTeachers"></div>
+                <div class="card">
+                    <h3>📅 الجدول الدراسي اليومي</h3>
+                    <table>
+                        <thead><tr><th>اليوم</th><th>الحصص</th></tr></thead>
+                        <tbody id="stScheduleTable"></tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>👨‍🏫 التواصل مع الأساتذة</h3>
+                    <div id="stTeachersList"></div>
+                </div>
+
+                <div class="card">
+                    <h3>💰 حجز المواد والدورات</h3>
+                    <table>
+                        <thead><tr><th>المادة</th><th>السعر</th><th>التسجيل</th></tr></thead>
+                        <tbody id="stCoursesTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="adTab" class="tab-content">
+            <div id="adLogin" class="card" style="max-width: 400px; margin: auto;">
+                <h3 style="text-align: center;">دخول المدير</h3>
+                <input type="password" id="adPassInput" placeholder="كلمة السر">
+                <button class="btn-main" onclick="adLoginAction()">تحقق</button>
+            </div>
+
+            <div id="adPanel" style="display: none;">
+                <div class="card">
+                    <h4>🎨 مظهر المركز (الشكل العام)</h4>
+                    <div class="theme-box">
+                        <div class="theme-opt" style="background: #2563eb;" onclick="setTheme('theme-classic')">كلاسيك</div>
+                        <div class="theme-opt" style="background: #1e293b;" onclick="setTheme('theme-dark')">ليلي</div>
+                        <div class="theme-opt" style="background: #8b5cf6;" onclick="setTheme('theme-royal')">ملكي</div>
+                        <div class="theme-opt" style="background: #10b981;" onclick="setTheme('theme-modern')">حديث</div>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h3>💎 حجز الدورات والمواد</h3>
-                    <div class="table-wrapper">
-                        <table><thead><tr><th>المادة</th><th>السعر</th><th>حجز</th></tr></thead><tbody id="stCourses"></tbody></table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="adView" class="tab-content">
-        <div class="container" style="margin-top: 2rem;">
-            <div id="adLogin" class="card" style="max-width: 400px; margin: auto;">
-                <h3>🔐 دخول الإدارة</h3>
-                <input type="password" id="adPass" placeholder="كلمة المرور">
-                <button class="btn-action" style="margin-top:10px" onclick="adLogin()">تحقق</button>
-            </div>
-
-            <div id="adPanel" style="display:none">
-                <div class="card" style="background: #eff6ff;">
-                    <h3>📢 نشر خبر أو إعلان عاجل</h3>
-                    <textarea id="adNews" placeholder="اكتب الخبر هنا ليظهر لكل الطلاب (مثلاً: خصم 20% على مادة الرياضيات)"></textarea>
-                    <button class="btn-action" style="margin-top:5px; background: #f97316;" onclick="saveNews()">نشر الإعلان</button>
+                    <h4>📣 الإعلانات والأخبار</h4>
+                    <textarea id="adNewsInput" placeholder="اكتب الخبر هنا"></textarea>
+                    <button class="btn-main" onclick="saveNews()">نشر الخبر</button>
                 </div>
 
-                <div class="admin-section">
-                    <div class="card">
-                        <h4>🗓️ الجدول الأسبوعي</h4>
-                        <select id="daySelect"><option>السبت</option><option>الأحد</option><option>الأثنين</option><option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option></select>
-                        <input type="text" id="dayNote" placeholder="الحصص">
-                        <button class="btn-action" style="margin-top:5px" onclick="saveDay()">تحديث</button>
-                    </div>
-                    <div class="card">
-                        <h4>👨‍🏫 إضافة أستاذ</h4>
-                        <input type="text" id="tName" placeholder="الاسم"><input type="text" id="tSub" placeholder="المادة"><input type="text" id="tPhone" placeholder="واتساب">
-                        <button class="btn-action" style="margin-top:5px" onclick="saveTeacher()">إضافة</button>
-                    </div>
+                <div class="card">
+                    <h4>🗓️ تعديل الجدول</h4>
+                    <select id="adDaySelect"><option>السبت</option><option>الأحد</option><option>الأثنين</option><option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option></select>
+                    <input type="text" id="adDayNote" placeholder="ملاحظات اليوم">
+                    <button class="btn-main" onclick="saveDay()">حفظ التعديل</button>
+                </div>
+
+                <div class="card">
+                    <h4>👨‍🏫 إضافة أستاذ</h4>
+                    <input type="text" id="adTName" placeholder="الاسم"><input type="text" id="adTSub" placeholder="المادة"><input type="text" id="adTPhone" placeholder="الواتساب">
+                    <button class="btn-main" onclick="saveTeacher()">إضافة</button>
                 </div>
 
                 <div class="card">
                     <h4>💎 إضافة مادة وسعر</h4>
-                    <div class="admin-section">
-                        <input type="text" id="cName" placeholder="اسم المادة"><input type="text" id="cPrice" placeholder="السعر">
-                    </div>
-                    <button class="btn-action" onclick="saveCourse()">نشر المادة</button>
+                    <input type="text" id="adCName" placeholder="المادة"><input type="text" id="adCPrice" placeholder="السعر">
+                    <button class="btn-main" onclick="saveCourse()">نشر</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const PASS = "AAAA1234";
-        let curSt = "";
+        const ADMIN_PASS = "AAAA1234";
+        let loggedSt = "";
 
-        function showTab(id) {
+        // تبديل التبويبات
+        function switchTab(id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             event.currentTarget.classList.add('active');
         }
 
-        function stLogin() {
-            const name = document.getElementById('stName').value;
-            if(!name) return; curSt = name;
+        // تسجيل الدخول
+        function stLoginAction() {
+            const name = document.getElementById('stNameInput').value;
+            if(!name) return alert("أدخل اسمك");
+            loggedSt = name;
             document.getElementById('stLogin').style.display = 'none';
             document.getElementById('stDashboard').style.display = 'block';
-            renderData();
+            renderAll();
         }
 
-        function adLogin() {
-            if(document.getElementById('adPass').value === PASS) {
+        function adLoginAction() {
+            if(document.getElementById('adPassInput').value === ADMIN_PASS) {
                 document.getElementById('adLogin').style.display = 'none';
                 document.getElementById('adPanel').style.display = 'block';
-                renderData();
-            } else alert("خطأ");
+                renderAll();
+            } else alert("كلمة السر خطأ");
         }
 
-        function saveNews() {
-            localStorage.setItem('ald_news', document.getElementById('adNews').value);
-            alert("تم نشر الخبر"); renderData();
+        // تغيير المظهر
+        function setTheme(theme) {
+            document.getElementById('mainBody').className = theme;
+            localStorage.setItem('ald_theme', theme);
+            alert("تم تغيير شكل الموقع بنجاح");
         }
 
+        // حفظ البيانات
+        function saveNews() { localStorage.setItem('ald_news', document.getElementById('adNewsInput').value); alert("تم النشر"); renderAll(); }
         function saveDay() {
             let s = JSON.parse(localStorage.getItem('ald_s') || '{}');
-            s[document.getElementById('daySelect').value] = document.getElementById('dayNote').value;
-            localStorage.setItem('ald_s', JSON.stringify(s)); alert("تم");
+            s[document.getElementById('adDaySelect').value] = document.getElementById('adDayNote').value;
+            localStorage.setItem('ald_s', JSON.stringify(s)); renderAll();
         }
-
         function saveTeacher() {
             let t = JSON.parse(localStorage.getItem('ald_t') || '[]');
-            t.push({name: document.getElementById('tName').value, sub: document.getElementById('tSub').value, phone: document.getElementById('tPhone').value});
-            localStorage.setItem('ald_t', JSON.stringify(t)); alert("تم");
+            t.push({name: document.getElementById('adTName').value, sub: document.getElementById('adTSub').value, phone: document.getElementById('adTPhone').value});
+            localStorage.setItem('ald_t', JSON.stringify(t)); renderAll();
         }
-
         function saveCourse() {
             let c = JSON.parse(localStorage.getItem('ald_c') || '[]');
-            c.push({name: document.getElementById('cName').value, price: document.getElementById('cPrice').value});
-            localStorage.setItem('ald_c', JSON.stringify(c)); alert("تم");
+            c.push({name: document.getElementById('adCName').value, price: document.getElementById('adCPrice').value});
+            localStorage.setItem('ald_c', JSON.stringify(c)); renderAll();
         }
 
-        function renderData() {
-            // الإعلانات
+        // عرض البيانات
+        function renderAll() {
+            // الثيم
+            const savedTheme = localStorage.getItem('ald_theme') || 'theme-classic';
+            document.getElementById('mainBody').className = savedTheme;
+
+            // الخبر
             const news = localStorage.getItem('ald_news');
             if(news) {
-                document.getElementById('newsTicker').innerText = "🔥 جديد: " + news;
-                document.getElementById('newsTicker').style.display = 'block';
-                document.getElementById('announcementBox').style.display = 'block';
+                document.getElementById('announcement').style.display = 'block';
                 document.getElementById('announcementText').innerText = news;
             }
 
             // الجدول
             const s = JSON.parse(localStorage.getItem('ald_s') || '{}');
-            document.getElementById('stSched').innerHTML = Object.keys(s).map(d => `<tr><td><b>${d}</b></td><td>${s[d]}</td></tr>`).join('');
-            
+            document.getElementById('stScheduleTable').innerHTML = Object.keys(s).map(d => `<tr><td><b>${d}</b></td><td>${s[d]}</td></tr>`).join('');
+
             // الأساتذة
             const t = JSON.parse(localStorage.getItem('ald_t') || '[]');
-            document.getElementById('stTeachers').innerHTML = t.map(i => `<div style='border-bottom:1px solid #eee; padding:10px'><b>${i.name}</b> (${i.sub}) <br> <a href='https://wa.me/${i.phone}' class='btn-wa'>واتساب</a></div>`).join('');
+            document.getElementById('stTeachersList').innerHTML = t.map(i => `<div style="padding:10px; border-bottom:1px solid #ddd;"><b>${i.name}</b> (${i.sub}) <a href="https://wa.me/${i.phone}" style="color:green; float:left">واتساب</a></div>`).join('');
 
             // المواد
             const c = JSON.parse(localStorage.getItem('ald_c') || '[]');
-            document.getElementById('stCourses').innerHTML = c.map(i => `<tr><td>${i.name}</td><td>${i.price}</td><td><a href='https://wa.me/9627XXXXXXXX?text=أنا ${curSt} أريد حجز ${i.name}' class='btn-wa'>حجز</a></td></tr>`).join('');
+            document.getElementById('stCoursesTable').innerHTML = c.map(i => `<tr><td>${i.name}</td><td>${i.price}</td><td><a href="https://wa.me/9627XXXXXXXX?text=أنا ${loggedSt} أريد حجز ${i.name}">حجز</a></td></tr>`).join('');
         }
+
+        // تحميل البيانات عند فتح الموقع
+        window.onload = renderAll;
     </script>
 </body>
 </html>
