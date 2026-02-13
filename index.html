@@ -1,32 +1,190 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dldonia Academy</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aldonia Academy - منصة تعليمية</title>
+<style>
+:root{
+  --bg:#0b1020; --text:#eef1ff; --brand:#6c7bff; --brand2:#33d6a6; --radius:16px;
+  --colorEng:#6c7bff; --colorOther:#ffb347;
+}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Tahoma,Arial;background:var(--bg);color:var(--text);}
+.container{max-width:900px;margin:0 auto;padding:22px;}
+h1,h2{margin:0 0 12px;}
+input,textarea,button,select{border-radius:12px;padding:10px;border:none;outline:none;font-size:15px;}
+input,textarea,select{width:100%;margin-top:8px;background: rgba(255,255,255,.04);color:var(--text);border:1px solid rgba(255,255,255,.12);}
+textarea.aiInput{height:150px;}
+button{cursor:pointer;}
+.card{background: rgba(18,26,51,.85); border-radius:var(--radius);padding:14px;margin-top:12px; border:1px solid rgba(255,255,255,.08);}
+.btnPrimary{background: linear-gradient(135deg,var(--brand),var(--brand2)); color:#0b1020; font-weight:700; margin-top:8px;}
+#aiContainer,#scheduleContainer,#adminPanel,#adminTeachers,#adminCourses{margin-top:12px; max-height:300px; overflow:auto; padding:8px; border:1px solid rgba(255,255,255,.12); border-radius:12px;}
+.aiQuestion,.aiSchedule{margin-top:6px; padding:6px; border-radius:10px; display:flex; justify-content:space-between; align-items:center;}
+.scheduleText{flex:1;}
+.scheduleBtn{margin-left:8px; padding:5px 8px; border-radius:10px; border:none; background:var(--brand2); color:#0b1020; cursor:pointer;}
+</style>
 </head>
 <body>
-    <header>
-        <h1>مرحباً بكم في dldonia Academy</h1>
-        <nav>
-            <a href="index.html">الرئيسية</a>
-            <a href="courses.html">الدورات</a>
-            <a href="prices.html">الأسعار</a>
-            <a href="contact.html">اتصل بنا</a>
-            <a href="admin.html">أدمن</a>
-        </nav>
-    </header>
 
-    <section>
-        <h2>أحدث الدورات</h2>
-        <div id="courses-list"></div>
-    </section>
+<div class="container" id="studentSection">
+  <h1 id="mainTitle">Aldonia Academy - تسجيل الطلاب 🎓</h1>
+  <form id="studentForm" class="card">
+    <label>الاسم الكامل</label>
+    <input required id="studentName" type="text" placeholder="الاسم">
+    <button type="submit" class="btnPrimary">دخول الطالب</button>
+  </form>
 
-    <footer>
-        <p>© 2026 dldonia Academy</p>
-    </footer>
+  <div id="aiSection" class="card" style="display:none;">
+    <h2>واجهة الأسئلة (AI)</h2>
+    <div id="aiContainer"></div>
+    <textarea class="aiInput" id="aiInput" placeholder="اكتب سؤالك هنا..."></textarea>
+    <button class="btnPrimary" id="submitQuestion">إرسال السؤال</button>
+  </div>
 
-    <script src="app.js"></script>
+  <div id="scheduleSection" class="card" style="display:none;">
+    <h2>جدول الدورات</h2>
+    <div id="scheduleContainer"></div>
+  </div>
+</div>
+
+<div class="container" id="adminSection">
+  <h1>لوحة الأدمن 🛠️</h1>
+  <label>كلمة المرور:</label>
+  <input type="password" id="adminPass" placeholder="كلمة مرور الأدمن">
+  <button class="btnPrimary" id="loginAdmin">تسجيل دخول الأدمن</button>
+
+  <div id="adminPanel" style="display:none;">
+    <h2>إدارة المدرسين</h2>
+    <div id="adminTeachers"></div>
+    <textarea class="aiInput" id="adminAddTeacher" placeholder="أضف مدرس: الاسم:رقم واتساب"></textarea>
+    <button class="btnPrimary" id="adminAddTeacherBtn">أضف مدرس</button>
+
+    <h2>إدارة الدورات</h2>
+    <div id="adminCourses"></div>
+    <input id="newCourse" placeholder="مثال: إنجليزي:2009:125:تالا البدور:962787004304">
+    <small>اسم الدورة:الصف:السعر:اسم المدرس:رقم واتساب</small>
+    <button class="btnPrimary" id="adminAddCourse">أضف الدورة</button>
+  </div>
+</div>
+
+<script>
+// ---------- بيانات وهمية ----------
+let students = [];
+let teachers = [
+  {name:"تالا البدور",phone:"+962787004304"},
+  {name:"محمود برغل",phone:"+962779857707"},
+  {name:"دنيا",phone:"+962779729724"}
+];
+let courses = [];
+let questions = [];
+let currentStudent = null;
+
+// ---------- تسجيل الطالب ----------
+document.getElementById("studentForm").addEventListener("submit",(e)=>{
+  e.preventDefault();
+  const name = document.getElementById("studentName").value.trim();
+  if(!name){alert("أدخل الاسم"); return;}
+  currentStudent = {name};
+  students.push(currentStudent);
+  document.getElementById("studentForm").style.display="none";
+  document.getElementById("aiSection").style.display="block";
+  document.getElementById("scheduleSection").style.display="block";
+  loadSchedule();
+  alert("تم تسجيل الدخول كطالب! يمكنك الآن رؤية جدول الدورات وطرح الأسئلة.");
+});
+
+// ---------- AI تجريبي ----------
+document.getElementById("submitQuestion").addEventListener("click",()=>{
+  const text=document.getElementById("aiInput").value.trim();
+  if(!text) return;
+  const q={user:currentStudent.name,text};
+  questions.push(q);
+  displayQuestion(q);
+  document.getElementById("aiInput").value="";
+});
+function displayQuestion(q){
+  const div=document.createElement("div");
+  div.className="aiQuestion";
+  div.textContent=`${q.user}: ${q.text} (إجابة AI تجريبية)`;
+  document.getElementById("aiContainer").appendChild(div);
+}
+
+// ---------- جدول الدورات ----------
+function loadSchedule(){
+  const container=document.getElementById("scheduleContainer");
+  container.innerHTML="";
+  courses.forEach(c=>{
+    const div=document.createElement("div");
+    div.className="aiSchedule";
+    div.style.background=c.name.toLowerCase().includes("إنجليزي")?"var(--colorEng)":"var(--colorOther)";
+    const textDiv=document.createElement("div");
+    textDiv.className="scheduleText";
+    textDiv.textContent=`${c.name} الصف ${c.grade} - السعر: ${c.price} - مدرس: ${c.teacher}`;
+    div.appendChild(textDiv);
+    const btn=document.createElement("button");
+    btn.className="scheduleBtn";
+    btn.textContent="واتساب المدرس";
+    btn.onclick=()=>{window.open(`https://wa.me/${c.phone}?text=مرحبا، أريد الاستفسار عن الحصة`,"_blank");};
+    div.appendChild(btn);
+    container.appendChild(div);
+  });
+}
+
+// ---------- الأدمن ----------
+const adminPassReal = "Aldonia@2026!";
+document.getElementById("loginAdmin").addEventListener("click",()=>{
+  const pass = document.getElementById("adminPass").value;
+  if(pass===adminPassReal){
+    document.getElementById("adminPanel").style.display="block";
+    loadTeachers();
+    loadCourses();
+    alert("تم تسجيل دخول الأدمن");
+  }else{alert("كلمة المرور خاطئة!");}
+});
+
+// إدارة المدرسين
+document.getElementById("adminAddTeacherBtn").addEventListener("click",()=>{
+  const text=document.getElementById("adminAddTeacher").value.trim();
+  if(!text) return;
+  const parts=text.split(":");
+  if(parts.length<2){alert("أدخل: الاسم:رقم واتساب");return;}
+  teachers.push({name:parts[0],phone:parts[1]});
+  document.getElementById("adminAddTeacher").value="";
+  loadTeachers();
+});
+function loadTeachers(){
+  const container=document.getElementById("adminTeachers");
+  container.innerHTML="";
+  teachers.forEach(t=>{
+    const div=document.createElement("div");
+    div.className="aiQuestion";
+    div.textContent=`${t.name} - ${t.phone}`;
+    container.appendChild(div);
+  });
+}
+
+// إدارة الدورات
+document.getElementById("adminAddCourse").addEventListener("click",()=>{
+  const text=document.getElementById("newCourse").value.trim();
+  if(!text) return;
+  const parts=text.split(":");
+  if(parts.length<5){alert("املأ: اسم الدورة:الصف:السعر:اسم المدرس:رقم واتساب"); return;}
+  courses.push({name:parts[0],grade:parts[1],price:parts[2],teacher:parts[3],phone:parts[4]});
+  document.getElementById("newCourse").value="";
+  loadCourses();
+  loadSchedule();
+});
+function loadCourses(){
+  const container=document.getElementById("adminCourses");
+  container.innerHTML="";
+  courses.forEach(c=>{
+    const div=document.createElement("div");
+    div.className="aiSchedule";
+    div.style.background=c.name.toLowerCase().includes("إنجليزي")?"var(--colorEng)":"var(--colorOther)";
+    div.textContent=`${c.name} الصف ${c.grade} - السعر: ${c.price} - مدرس: ${c.teacher}`;
+    container.appendChild(div);
+  });
+}
+</script>
 </body>
 </html>
