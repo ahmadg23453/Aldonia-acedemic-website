@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية الدنيا | المنصة الشاملة 2026</title>
+    <title>أكاديمية الدنيا | النسخة المتكاملة بذكاء اصطناعي حقيقي</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -33,7 +33,6 @@
 
         main { flex: 1; margin-right: 260px; padding: 30px; }
 
-        /* العناصر الزجاجية */
         .card {
             background: var(--glass); backdrop-filter: blur(15px); border-radius: 20px;
             padding: 20px; border: 1px solid rgba(255,255,255,0.6); margin-bottom: 20px;
@@ -41,18 +40,20 @@
         }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
 
-        /* شريط الأخبار */
         .ticker { background: var(--accent); color: white; padding: 10px; border-radius: 12px; margin-bottom: 20px; display: none; font-weight: bold; text-align: center; }
 
-        input, select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; margin-top: 8px; }
-        .btn-p { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 10px; }
-        
-        .status-active { color: var(--success); font-weight: bold; }
-        .status-pending { color: var(--accent); font-weight: bold; }
+        input, select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; margin-top: 8px; outline: none; }
+        .btn-p { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 10px; transition: 0.3s; }
+        .btn-p:hover { opacity: 0.9; }
 
         .section { display: none; }
         .section.active { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Chat UI */
+        #ai-chat { height: 250px; overflow-y: auto; background: rgba(255,255,255,0.5); padding: 15px; border-radius: 15px; border: 1px solid #ddd; margin-bottom: 10px; }
+        .ai-msg { background: #e0e7ff; padding: 10px; border-radius: 15px 15px 0 15px; margin-bottom: 10px; font-size: 0.9rem; border: 1px solid #c7d2fe; }
+        .user-msg { background: white; padding: 10px; border-radius: 15px 15px 15px 0; margin-bottom: 10px; text-align: left; font-size: 0.9rem; border: 1px solid #eee; }
 
         @media (max-width: 1024px) { aside { width: 80px; } aside span { display: none; } main { margin-right: 80px; } }
     </style>
@@ -60,48 +61,52 @@
 <body>
 
     <aside>
-        <div style="text-align:center; margin-bottom:30px; color:var(--primary); font-size:1.5rem; font-weight:900;"><i class="fas fa-graduation-cap"></i><span> الدنيا</span></div>
+        <div style="text-align:center; margin-bottom:30px; color:var(--primary); font-size:1.5rem; font-weight:900;"><i class="fas fa-crown"></i><span> الدنيا</span></div>
         <button class="nav-link active" onclick="tab('h', this)"><i class="fas fa-home"></i> <span>الرئيسية</span></button>
-        <button class="nav-link" onclick="tab('c', this)"><i class="fas fa-book"></i> <span>المواد</span></button>
-        <button class="nav-link" onclick="tab('t', this)"><i class="fas fa-chalkboard-teacher"></i> <span>المعلمين</span></button>
-        <button class="nav-link" onclick="tab('q', this)"><i class="fas fa-vial"></i> <span>الاختبارات</span></button>
-        <button class="nav-link" onclick="tab('a', this)" style="margin-top:auto; color:var(--accent);"><i class="fas fa-user-shield"></i> <span>الإدارة</span></button>
+        <button class="nav-link" onclick="tab('c', this)"><i class="fas fa-book"></i> <span>المحتوى</span></button>
+        <button class="nav-link" onclick="tab('t', this)"><i class="fas fa-users-cog"></i> <span>المعلمين</span></button>
+        <button class="nav-link" onclick="tab('q', this)"><i class="fas fa-tasks"></i> <span>الاختبارات</span></button>
+        <button class="nav-link" onclick="tab('a', this)" style="margin-top:auto; color:var(--accent);"><i class="fas fa-user-shield"></i> <span>لوحة الإدارة</span></button>
     </aside>
 
     <main>
         <div id="ticker-box" class="ticker"></div>
 
         <div id="h" class="section active">
-            <div id="login-box" class="card" style="max-width:400px; margin: 50px auto; text-align:center;">
-                <h2>دخول الطلاب 🎓</h2>
-                <input type="text" id="st-name" placeholder="اسمك الكامل">
-                <button class="btn-p" onclick="login()">دخول</button>
+            <div id="login-box" class="card" style="max-width:400px; margin: 40px auto; text-align:center;">
+                <h2>مرحباً بك في الدنيا 🎓</h2>
+                <input type="text" id="st-name" placeholder="أدخل اسمك الكامل">
+                <button class="btn-p" onclick="login()">دخول المنصة</button>
             </div>
             <div id="dash" style="display:none;">
-                <div class="card" style="background: var(--primary); color:white;">
+                <div class="card" style="background: linear-gradient(135deg, var(--primary), #6366f1); color:white;">
                     <h2 id="hi-user"></h2>
                     <p id="st-status" style="margin-top:10px; font-weight:bold;"></p>
                 </div>
                 <div class="grid">
                     <div class="card">
-                        <h3>🤖 المساعد AI</h3>
-                        <div id="ai-chat" style="height:100px; overflow-y:auto; margin:10px 0; background:rgba(255,255,255,0.3); padding:10px; border-radius:10px;"></div>
-                        <input type="text" id="ai-in" placeholder="اسألني أي شيء..." onkeypress="if(event.key==='Enter') askAI()">
+                        <h3>🤖 المساعد الدراسي (Gemini AI الحقيقي)</h3>
+                        <div id="ai-chat"></div>
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="ai-in" placeholder="اسألني أي سؤال دراسي..." style="margin:0">
+                            <button class="btn-p" style="margin:0; width:60px;" onclick="askAI()"><i class="fas fa-paper-plane"></i></button>
+                        </div>
                     </div>
                     <div class="card" style="text-align:center;">
-                        <h3>📊 تقييمك</h3>
-                        <h1 id="my-grade" style="font-size:3rem; color:var(--primary);">--</h1>
+                        <h3>📊 تقييمك الحالي</h3>
+                        <h1 id="my-grade" style="font-size:4rem; color:var(--primary); margin:15px 0;">--</h1>
+                        <p id="my-comment" style="color:#64748b; font-style:italic;"></p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="c" class="section">
-            <div id="lock" class="card" style="display:none; text-align:center;">
-                <i class="fas fa-lock fa-3x" style="color:var(--accent);"></i>
-                <h2>المحتوى مغلق</h2><p>بانتظار تفعيل الأدمن...</p>
+            <div id="lock" class="card" style="display:none; text-align:center; padding:50px;">
+                <i class="fas fa-lock fa-4x" style="color:var(--accent); margin-bottom:20px;"></i>
+                <h2>المحتوى مغلق!</h2><p>يرجى تفعيل حسابك من قبل الإدارة لتتمكن من الوصول للملخصات.</p>
             </div>
-            <div id="content">
+            <div id="content-body">
                 <h1>المواد والملخصات 📂</h1>
                 <div id="crs-grid" class="grid" style="margin-top:20px;"></div>
             </div>
@@ -112,47 +117,36 @@
             <div id="tch-grid" class="grid" style="margin-top:20px;"></div>
         </div>
 
-        <div id="q" class="section">
-            <div class="card" style="max-width:600px; margin:auto;">
-                <h2 id="q-text">لا توجد اختبارات حالياً</h2>
-                <div id="q-opts" style="margin-top:15px;"></div>
-                <button id="q-next" class="btn-p" style="display:none;" onclick="nextQ()">السؤال التالي</button>
-                <div id="q-res" style="display:none; text-align:center;">
-                    <h2 id="score-txt"></h2>
-                    <button class="btn-p" onclick="location.reload()">إعادة</button>
-                </div>
-            </div>
-        </div>
-
         <div id="a" class="section">
-            <div id="a-auth" class="card" style="max-width:400px; margin:auto;">
-                <h3>🔐 الإدارة</h3>
+            <div id="a-auth" class="card" style="max-width:400px; margin:auto; text-align:center;">
+                <h3>🔐 بوابة Super Admin</h3>
                 <input type="password" id="a-pass" placeholder="كلمة المرور">
                 <button class="btn-p" onclick="auth()">دخول</button>
             </div>
             <div id="a-panel" style="display:none;">
                 <div class="grid">
                     <div class="card">
-                        <h4>➕ مادة/ملخص</h4>
-                        <input id="ad-cn" placeholder="المادة">
+                        <h4>➕ إضافة مادة</h4>
+                        <input id="ad-cn" placeholder="اسم المادة">
                         <input id="ad-cl" placeholder="رابط PDF">
-                        <button class="btn-p" onclick="add('crs')">حفظ</button>
+                        <button class="btn-p" onclick="add('crs')">رفع</button>
                     </div>
                     <div class="card">
-                        <h4>➕ معلم</h4>
+                        <h4>➕ إضافة معلم</h4>
                         <input id="ad-tn" placeholder="الاسم">
                         <input id="ad-tp" placeholder="واتساب">
                         <button class="btn-p" onclick="add('tch')">حفظ</button>
                     </div>
                     <div class="card">
-                        <h4>📢 إعلان</h4>
+                        <h4>📢 إعلان عاجل</h4>
                         <input id="ad-news" placeholder="نص الإعلان">
                         <button class="btn-p" style="background:var(--accent);" onclick="setNews()">نشر</button>
                     </div>
                 </div>
                 <div class="card">
-                    <h4>👥 الطلاب</h4>
-                    <table style="width:100%; margin-top:10px; text-align:right;">
+                    <h4>👥 إدارة الطلاب والتحكم الكامل</h4>
+                    <table style="width:100%; margin-top:15px; text-align:right; border-collapse:collapse;">
+                        <thead><tr style="border-bottom:2px solid #ddd;"><th>الطالب</th><th>الحالة</th><th>إجراءات</th></tr></thead>
                         <tbody id="st-table"></tbody>
                     </table>
                 </div>
@@ -162,23 +156,49 @@
     </main>
 
     <script>
-        let cur = "", qIdx = 0, score = 0, sel = null;
+        // 🛑 ضع مفتاح جوجل الخاص بك هنا ليعمل الـ AI الحقيقي
+        const API_KEY = "ضع_هنا_API_KEY_الخاص_بك"; 
+
+        let cur = "";
 
         function tab(id, b) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.getElementById(id).classList.add('active'); b.classList.add('active');
+            document.getElementById(id).classList.add('active'); if(b) b.classList.add('active');
             render();
         }
 
         function login() {
             let n = document.getElementById('st-name').value; if(!n) return;
-            cur = n; let sts = JSON.parse(localStorage.getItem('sts_v2') || '{}');
-            if(!sts[n]) sts[n] = { status: 'pending', note: '', grade: '--' };
-            localStorage.setItem('sts_v2', JSON.stringify(sts));
+            cur = n; let sts = JSON.parse(localStorage.getItem('aldonia_sts') || '{}');
+            if(!sts[n]) sts[n] = { status: 'pending', note: '', grade: '--', comment: '' };
+            localStorage.setItem('aldonia_sts', JSON.stringify(sts));
             document.getElementById('login-box').style.display='none';
             document.getElementById('dash').style.display='block';
-            document.getElementById('hi-user').innerText = "أهلاً " + n; render();
+            document.getElementById('hi-user').innerText = "مرحباً، " + n; render();
+        }
+
+        async function askAI() {
+            let input = document.getElementById('ai-in').value; if(!input) return;
+            let win = document.getElementById('ai-chat');
+            win.innerHTML += `<div class="user-msg">${input}</div>`;
+            document.getElementById('ai-in').value = "";
+            let loadId = "load-" + Date.now();
+            win.innerHTML += `<div id="${loadId}" class="ai-msg">جاري التفكير...</div>`;
+            win.scrollTop = win.scrollHeight;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `أنت مساعد تعليمي ذكي في أكاديمية الدنيا. أجب بلغة عربية سهلة على: ${input}` }] }] })
+                });
+                const data = await response.json();
+                document.getElementById(loadId).innerText = data.candidates[0].content.parts[0].text;
+            } catch {
+                document.getElementById(loadId).innerText = "عذراً، تأكد من وضع API Key صحيح في الكود.";
+            }
+            win.scrollTop = win.scrollHeight;
         }
 
         function auth() { if(document.getElementById('a-pass').value === "AAAA1234") { document.getElementById('a-auth').style.display='none'; document.getElementById('a-panel').style.display='block'; render(); } }
@@ -187,13 +207,13 @@
             let db = JSON.parse(localStorage.getItem(t) || '[]');
             if(t==='crs') db.push({id:Date.now(), n:document.getElementById('ad-cn').value, l:document.getElementById('ad-cl').value});
             if(t==='tch') db.push({id:Date.now(), n:document.getElementById('ad-tn').value, p:document.getElementById('ad-tp').value});
-            localStorage.setItem(t, JSON.stringify(db)); render(); alert("تم!");
+            localStorage.setItem(t, JSON.stringify(db)); render(); alert("تم الحفظ بنجاح!");
         }
 
-        function setNews() { localStorage.setItem('news', document.getElementById('ad-news').value); render(); }
+        function setNews() { localStorage.setItem('news', document.getElementById('ad-news').value); render(); alert("تم النشر"); }
 
         function render() {
-            const sts = JSON.parse(localStorage.getItem('sts_v2') || '{}');
+            const sts = JSON.parse(localStorage.getItem('aldonia_sts') || '{}');
             const crs = JSON.parse(localStorage.getItem('crs') || '[]');
             const tch = JSON.parse(localStorage.getItem('tch') || '[]');
             const news = localStorage.getItem('news');
@@ -201,39 +221,35 @@
             if(news) { document.getElementById('ticker-box').innerText = "📢 " + news; document.getElementById('ticker-box').style.display='block'; }
             if(cur) {
                 let me = sts[cur];
-                document.getElementById('st-status').innerText = me.status === 'pending' ? "حسابك معلق..." : "نشط | " + me.note;
+                document.getElementById('st-status').innerText = me.status === 'pending' ? "حسابك بانتظار تفعيل الإدارة..." : "حساب نشط ✅ | ملاحظة: " + me.note;
                 document.getElementById('my-grade').innerText = me.grade;
                 document.getElementById('lock').style.display = me.status === 'pending' ? 'block' : 'none';
-                document.getElementById('content').style.display = me.status === 'pending' ? 'none' : 'block';
+                document.getElementById('content-body').style.display = me.status === 'pending' ? 'none' : 'block';
             }
 
-            document.getElementById('crs-grid').innerHTML = crs.map(c => `<div class="card"><h3>${c.n}</h3><a href="${c.l}" target="_blank" class="btn-p" style="text-decoration:none; display:block; text-align:center;">تحميل PDF</a></div>`).join('');
-            document.getElementById('tch-grid').innerHTML = tch.map(t => `<div class="card" style="text-align:center;"><h4>${t.n}</h4><a href="https://wa.me/${t.p}" class="btn-p" style="background:#075e54; text-decoration:none; display:block;">واتساب</a></div>`).join('');
+            document.getElementById('crs-grid').innerHTML = crs.map(c => `<div class="card"><h3>${c.n}</h3><a href="${c.l}" target="_blank" class="btn-p" style="text-decoration:none; display:block; text-align:center;">تحميل الملف PDF</a></div>`).join('');
+            document.getElementById('tch-grid').innerHTML = tch.map(t => `<div class="card" style="text-align:center;"><h4>${t.n}</h4><a href="https://wa.me/${t.p}" class="btn-p" style="background:#075e54; text-decoration:none; display:block;"><i class="fab fa-whatsapp"></i> تواصل مباشر</a></div>`).join('');
 
             let html = "";
             for(let n in sts) {
-                html += `<tr><td>${n}</td><td class="status-${sts[n].status}">${sts[n].status}</td><td><button onclick="editSt('${n}')">تعديل</button></td></tr>`;
+                html += `<tr style="border-bottom:1px solid #eee;"><td style="padding:10px;">${n}</td><td class="status-${sts[n].status}">${sts[n].status}</td><td><button onclick="editSt('${n}')" style="cursor:pointer; color:blue; border:none; background:none; font-weight:bold;">تحكم</button></td></tr>`;
             }
             document.getElementById('st-table').innerHTML = html;
+            
+            document.getElementById('del-box').innerHTML = "<h4>سلة الحذف</h4>" + crs.map(c => `<div style="display:flex; justify-content:space-between; margin-top:5px; background:white; padding:5px; border-radius:5px;"><span>${c.n}</span><i class="fas fa-trash" onclick="del('crs', ${c.id})" style="color:red; cursor:pointer;"></i></div>`).join('');
         }
+
+        function del(t, id) { let db = JSON.parse(localStorage.getItem(t)); localStorage.setItem(t, JSON.stringify(db.filter(x => x.id !== id))); render(); }
 
         function editSt(n) {
-            let sts = JSON.parse(localStorage.getItem('sts_v2'));
-            let s = confirm("تفعيل الحساب؟") ? 'active' : 'pending';
-            let nt = prompt("موعد الحصة:", sts[n].note);
-            let gr = prompt("العلامة:", sts[n].grade);
-            sts[n] = { status: s, note: nt, grade: gr };
-            localStorage.setItem('sts_v2', JSON.stringify(sts)); render();
+            let sts = JSON.parse(localStorage.getItem('aldonia_sts'));
+            let s = confirm("هل تريد تفعيل حساب هذا الطالب؟ (موافق للنشط / إلغاء للمعلق)") ? 'active' : 'pending';
+            let nt = prompt("أدخل ملاحظة للطالب (موعد الحصة مثلاً):", sts[n].note);
+            let gr = prompt("أدخل علامة الطالب:", sts[n].grade);
+            sts[n] = { status: s, note: nt || '', grade: gr || '--' };
+            localStorage.setItem('aldonia_sts', JSON.stringify(sts)); render();
         }
 
-        function askAI() {
-            let i = document.getElementById('ai-in').value;
-            let res = "ركز على ملخصاتك وستنجح!";
-            if(i.includes("موعد")) res = "موعدك مكتوب في الأعلى بجانب حالتك.";
-            document.getElementById('ai-chat').innerHTML += `<div><b>أنت:</b> ${i}</div><div><b>AI:</b> ${res}</div>`;
-            document.getElementById('ai-in').value = "";
-        }
-        
         window.onload = render;
     </script>
 </body>
