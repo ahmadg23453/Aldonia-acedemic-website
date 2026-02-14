@@ -3,313 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الدنيا | الذكاء الاصطناعي الكامل</title>
+    <title>منصة الدنيا | Super Admin Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --glass: rgba(255, 255, 255, 0.75);
-            --glass-heavy: rgba(255, 255, 255, 0.9);
-            --glass-border: rgba(255, 255, 255, 0.4);
-            --primary: #6366f1;
-            --accent: #f43f5e;
-            --text: #0f172a;
+            --glass: rgba(255, 255, 255, 0.8);
+            --primary: #4338ca;
+            --accent: #db2777;
+            --success: #059669;
+            --text: #111827;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
         body {
-            background: linear-gradient(135deg, #c7d2fe 0%, #fbcfe8 100%);
-            background-attachment: fixed;
-            min-height: 100vh;
-            display: flex;
-            color: var(--text);
+            background: radial-gradient(circle at top right, #e0e7ff, #fdf2f8, #f5f3ff);
+            background-attachment: fixed; min-height: 100vh; display: flex; color: var(--text);
         }
 
         /* Sidebar */
         aside {
-            width: 280px; background: var(--glass); backdrop-filter: blur(20px);
-            border-left: 1px solid var(--glass-border); position: fixed; height: 100vh;
+            width: 280px; background: var(--glass); backdrop-filter: blur(25px);
+            border-left: 1px solid rgba(255,255,255,0.5); position: fixed; height: 100vh;
             right: 0; padding: 30px 20px; z-index: 1000; display: flex; flex-direction: column;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.05);
         }
 
         .nav-link {
-            width: 100%; padding: 14px; border-radius: 12px; border: none; background: transparent;
+            width: 100%; padding: 14px; border-radius: 15px; border: none; background: transparent;
             display: flex; align-items: center; gap: 12px; color: var(--text); font-weight: 700;
             cursor: pointer; margin-bottom: 8px; transition: 0.3s;
         }
-        .nav-link.active, .nav-link:hover { background: white; color: var(--primary); transform: translateX(-5px); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .nav-link.active, .nav-link:hover { background: var(--primary); color: white; transform: scale(1.02); }
 
-        main { flex: 1; margin-right: 280px; padding: 40px; }
+        main { flex: 1; margin-right: 280px; padding: 30px; }
 
-        /* Glass Cards */
+        /* شريط الإعلانات للأدمن */
+        .news-ticker {
+            background: var(--accent); color: white; padding: 10px; border-radius: 12px;
+            margin-bottom: 25px; display: none; font-weight: bold; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
+
         .card {
-            background: var(--glass); backdrop-filter: blur(12px); border-radius: 24px;
-            padding: 25px; border: 1px solid var(--glass-border); margin-bottom: 25px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
+            background: var(--glass); backdrop-filter: blur(15px); border-radius: 25px;
+            padding: 25px; border: 1px solid rgba(255,255,255,0.6); margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
 
-        /* Stats Card */
-        .stat-box { background: white; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #eee; }
-        .stat-box h4 { font-size: 0.8rem; color: #64748b; }
-        .stat-box p { font-size: 1.5rem; font-weight: 900; color: var(--primary); }
+        .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: white; padding: 20px; border-radius: 20px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+        .stat-card i { font-size: 1.5rem; color: var(--primary); margin-bottom: 10px; }
 
-        /* AI Chat Box */
-        #ai-chat-window {
-            height: 200px; overflow-y: auto; background: rgba(255,255,255,0.5);
-            border-radius: 15px; padding: 15px; margin-bottom: 10px; border: 1px solid var(--glass-border);
-        }
-        .ai-bubble { background: var(--primary); color: white; padding: 10px 15px; border-radius: 15px 15px 0 15px; margin-bottom: 10px; display: inline-block; }
-        .user-bubble { background: white; padding: 10px 15px; border-radius: 15px 15px 15px 0; margin-bottom: 10px; display: block; text-align: left; }
-
-        input, select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--glass-border); background: white; outline: none; margin-top: 5px; }
-        .btn-p { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 10px; }
-        .btn-p:hover { opacity: 0.9; transform: scale(1.02); }
+        input, select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; margin-top: 8px; background: rgba(255,255,255,0.9); }
+        .btn-p { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 15px; }
+        
+        /* تلوين حالة الحساب */
+        .status-active { color: var(--success); font-weight: bold; }
+        .status-pending { color: var(--accent); font-weight: bold; }
 
         .section { display: none; }
-        .section.active { display: block; animation: slideIn 0.4s ease; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .section.active { display: block; animation: fadeInUp 0.5s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        @media (max-width: 1024px) { aside { width: 80px; } aside span, .logo span { display: none; } main { margin-right: 80px; } }
+        @media (max-width: 1024px) { aside { width: 85px; } aside span { display: none; } main { margin-right: 85px; } .stat-grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
 
     <aside>
-        <div class="logo" style="text-align:center; margin-bottom:40px; color:var(--primary); font-size:1.5rem; font-weight:900;">
-            <i class="fas fa-meteor"></i><span> Aldonia</span>
+        <div style="text-align:center; margin-bottom:40px; color:var(--primary); font-size:1.8rem;">
+            <i class="fas fa-crown"></i><span style="font-weight:900;"> الدنيا</span>
         </div>
-        <button class="nav-link active" onclick="showTab('home', this)"><i class="fas fa-home"></i> <span>الرئيسية</span></button>
-        <button class="nav-link" onclick="showTab('vault', this)"><i class="fas fa-folder-open"></i> <span>المستندات</span></button>
-        <button class="nav-link" onclick="showTab('team', this)"><i class="fas fa-user-graduate"></i> <span>المعلمين</span></button>
-        <button class="nav-link" onclick="showTab('admin', this)" style="margin-top:auto; color:var(--accent);"><i class="fas fa-user-shield"></i> <span>الإدارة</span></button>
+        <button class="nav-link active" onclick="showTab('h', this)"><i class="fas fa-th-large"></i> <span>الرئيسية</span></button>
+        <button class="nav-link" onclick="showTab('c', this)"><i class="fas fa-graduation-cap"></i> <span>الأكاديمية</span></button>
+        <button class="nav-link" onclick="showTab('a', this)" style="margin-top:auto; color:var(--accent);"><i class="fas fa-user-shield"></i> <span>لوحة الإدارة</span></button>
     </aside>
 
     <main>
-        <div id="home" class="section active">
-            <div id="login-form" class="card" style="max-width:400px; margin: 40px auto; text-align:center;">
-                <h2>مرحباً بك 🎓</h2>
-                <input type="text" id="st-name" placeholder="اسمك الكامل">
-                <button class="btn-p" onclick="login()">دخول الحساب</button>
+        <div id="ticker" class="news-ticker"></div>
+
+        <div id="h" class="section active">
+            <div id="login-screen" class="card" style="max-width:450px; margin: 60px auto; text-align:center;">
+                <h2 style="margin-bottom:20px;">دخول الطالب 👋</h2>
+                <input type="text" id="st-name" placeholder="أدخل اسمك بالكامل">
+                <button class="btn-p" onclick="stLogin()">دخول النظام</button>
             </div>
 
-            <div id="st-dash" style="display:none;">
-                <div class="card" style="background: linear-gradient(135deg, #6366f1, #a855f7); color:white;">
-                    <h2 id="hello-msg"></h2>
-                    <p id="st-private" style="margin-top:10px; font-weight:bold;"></p>
+            <div id="student-dash" style="display:none;">
+                <div class="card" style="background: linear-gradient(135deg, var(--primary), #6366f1); color:white;">
+                    <h2 id="welcome-user"></h2>
+                    <p id="st-status-msg" style="margin-top:10px; opacity:0.9;"></p>
                 </div>
                 
-                <div class="card">
-                    <h3>🤖 المساعد الدراسي AI (فعال الآن)</h3>
-                    <div id="ai-chat-window">
-                        <div class="ai-bubble">أهلاً بك! أنا AI أكاديمية الدنيا. كيف أساعدك اليوم؟ (جرب كتابة: دراسة، امتحان، ملخص)</div>
+                <div class="grid">
+                    <div class="card">
+                        <h3>🤖 المساعد الذكي</h3>
+                        <p id="ai-resp" style="background:rgba(255,255,255,0.4); padding:15px; border-radius:15px; margin:15px 0;">أهلاً بك! أنا AI المنصة، كيف أساعدك؟</p>
+                        <input type="text" id="ai-in" placeholder="اسألني عن أي شيء..." onkeypress="if(event.key==='Enter') smartAI()">
                     </div>
-                    <div style="display:flex; gap:10px;">
-                        <input type="text" id="ai-input" placeholder="اكتب سؤالك هنا..." style="margin:0">
-                        <button class="btn-p" style="margin:0; width:60px;" onclick="talkToAI()"><i class="fas fa-paper-plane"></i></button>
+                    <div class="card">
+                        <h3>📊 تقييمك الدراسي</h3>
+                        <div id="st-grade-box" style="margin-top:20px; text-align:center;">
+                            <span style="font-size:3rem; font-weight:900; color:var(--primary);" id="my-grade">--</span>
+                            <p id="my-comment" style="color:#64748b;"></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="vault" class="section">
-            <h1>خزينة الملفات والدورات 📂</h1>
-            <div id="courses-grid" class="grid" style="margin-top:20px;"></div>
+        <div id="c" class="section">
+            <div id="locked-msg" class="card" style="text-align:center; display:none;">
+                <i class="fas fa-lock fa-4x" style="color:var(--accent); margin-bottom:20px;"></i>
+                <h2>محتوى مغلق!</h2>
+                <p>عذراً، يجب على الإدارة تفعيل حسابك لتتمكن من رؤية الملفات والدورات.</p>
+            </div>
+            <div id="content-unlocked">
+                <h1 style="margin-bottom:20px;">المواد والملخصات 📂</h1>
+                <div id="courses-grid" class="grid"></div>
+            </div>
         </div>
 
-        <div id="team" class="section">
-            <h1>أعضاء هيئة التدريس 👨‍🏫</h1>
-            <div id="teachers-grid" class="grid" style="margin-top:20px;"></div>
-        </div>
-
-        <div id="admin" class="section">
-            <div id="admin-gate" class="card" style="max-width:400px; margin:auto; text-align:center;">
-                <h3>🔐 التحكم المركزي</h3>
+        <div id="a" class="section">
+            <div id="admin-auth" class="card" style="max-width:400px; margin:auto; text-align:center;">
+                <h3>🔐 Super Admin Access</h3>
                 <input type="password" id="admin-pass" placeholder="كلمة المرور">
-                <button class="btn-p" onclick="adminAccess()">دخول</button>
+                <button class="btn-p" onclick="authAdmin()">دخول</button>
             </div>
 
-            <div id="admin-dashboard" style="display:none;">
-                <div class="grid" style="margin-bottom:20px;">
-                    <div class="stat-box"><h4>إجمالي الطلاب</h4><p id="stat-sts">0</p></div>
-                    <div class="stat-box"><h4>المواد المرفوعة</h4><p id="stat-crs">0</p></div>
-                    <div class="stat-box"><h4>المعلمين</h4><p id="stat-tch">0</p></div>
+            <div id="admin-panel" style="display:none;">
+                <div class="stat-grid">
+                    <div class="stat-card"><i class="fas fa-users"></i><h4>طلاب</h4><p id="s-sts">0</p></div>
+                    <div class="stat-card"><i class="fas fa-book"></i><h4>مواد</h4><p id="s-crs">0</p></div>
+                    <div class="stat-card"><i class="fas fa-clock"></i><h4>بانتظار التفعيل</h4><p id="s-pen">0</p></div>
+                    <div class="stat-card"><i class="fas fa-check-circle"></i><h4>نشطون</h4><p id="s-act">0</p></div>
                 </div>
 
                 <div class="grid">
                     <div class="card">
-                        <h4>➕ إضافة مادة/ملخص</h4>
-                        <input id="ad-c-n" placeholder="اسم المادة">
-                        <input id="ad-c-t" placeholder="الأستاذ">
-                        <input id="ad-c-l" placeholder="رابط الملف (PDF)">
-                        <button class="btn-p" onclick="saveData('course')">رفع الآن</button>
+                        <h4>📢 شريط الإعلانات</h4>
+                        <input id="ad-news" placeholder="اكتب إعلاناً لكل الطلاب...">
+                        <button class="btn-p" style="background:var(--accent);" onclick="setNews()">نشر الإعلان</button>
                     </div>
                     <div class="card">
-                        <h4>➕ إضافة معلم</h4>
-                        <input id="ad-t-n" placeholder="اسم المعلم">
-                        <input id="ad-t-p" placeholder="واتساب">
-                        <button class="btn-p" onclick="saveData('teacher')">حفظ المعلم</button>
+                        <h4>➕ إضافة مادة جديدة</h4>
+                        <input id="ad-cn" placeholder="اسم المادة">
+                        <input id="ad-cl" placeholder="رابط الملف (PDF)">
+                        <button class="btn-p" onclick="addCourse()">رفع المادة</button>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h4>📋 إدارة الطلاب والاشتراكات</h4>
-                    <div id="admin-st-list" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:15px;"></div>
-                    <div id="st-edit-box" style="display:none; margin-top:20px; background:rgba(99,102,241,0.1); padding:20px; border-radius:15px;">
-                        <h5>تعديل حالة: <span id="target-st"></span></h5>
-                        <input id="target-msg" placeholder="اكتب موعد الحصة أو تنبيه للطالب">
-                        <button class="btn-p" onclick="updateSt()">تحديث بيانات الطالب</button>
-                    </div>
+                    <h4>👥 إدارة الطلاب والتحكم بالحسابات</h4>
+                    <table style="width:100%; border-collapse:collapse; margin-top:15px; text-align:right;">
+                        <thead>
+                            <tr style="border-bottom:2px solid #eee;">
+                                <th style="padding:10px;">الطالب</th>
+                                <th>الحالة</th>
+                                <th>الموعد/العلامة</th>
+                                <th>إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="st-table-body"></tbody>
+                    </table>
                 </div>
-
-                <div class="card" id="delete-manager"></div>
             </div>
         </div>
     </main>
 
     <script>
-        let currentUser = "";
-        let editTarget = "";
-
-        // نظام AI المنطقي
-        const aiMemory = {
-            "دراسة": "أفضل طريقة للدراسة هي تقنية الطماطم (25 دقيقة دراسة، 5 دقائق راحة).",
-            "ملخص": "يمكنك العثور على جميع الملخصات في قسم (المستندات) داخل المنصة.",
-            "امتحان": "لا تقلق! قم بمراجعة الاختبارات السابقة والتركيز على النقاط الرئيسية في الملخص.",
-            "رياضيات": "الرياضيات تحتاج لممارسة مستمرة، قم بحل مسألة واحدة جديدة كل يوم.",
-            "مرحبا": "أهلاً بك! أنا مساعدك الذكي، كيف أساعدك في رحلتك الدراسية؟",
-            "شكرا": "العفو! أنا دائماً هنا لخدمتك. بالتوفيق في دراستك."
-        };
-
-        function talkToAI() {
-            let inp = document.getElementById('ai-input').value.trim();
-            if(!inp) return;
-            let win = document.getElementById('ai-chat-window');
-            win.innerHTML += `<div class="user-bubble">${inp}</div>`;
-            
-            let response = "سؤال جيد! كوني AI متخصص، أنصحك بالتركيز على تنظيم وقتك والتواصل مع المعلم في حال وجود نقطة غير واضحة.";
-            for(let key in aiMemory) {
-                if(inp.includes(key)) { response = aiMemory[key]; break; }
-            }
-
-            setTimeout(() => {
-                win.innerHTML += `<div class="ai-bubble">${response}</div>`;
-                win.scrollTop = win.scrollHeight;
-            }, 600);
-            document.getElementById('ai-input').value = "";
-        }
-
-        // تسجيل دخول الطالب
-        function login() {
-            let n = document.getElementById('st-name').value;
-            if(!n) return;
-            currentUser = n;
-            let sts = JSON.parse(localStorage.getItem('sts')||'[]');
-            if(!sts.includes(n)) sts.push(n);
-            localStorage.setItem('sts', JSON.stringify(sts));
-            document.getElementById('login-form').style.display='none';
-            document.getElementById('st-dash').style.display='block';
-            document.getElementById('hello-msg').innerText = `أهلاً بك، ${n} ✨`;
-            render();
-        }
-
-        // دخول الإدارة
-        function adminAccess() {
-            if(document.getElementById('admin-pass').value === "AAAA1234") {
-                document.getElementById('admin-gate').style.display='none';
-                document.getElementById('admin-dashboard').style.display='block';
-                render();
-            } else { alert("رمز الدخول خاطئ!"); }
-        }
-
-        function saveData(type) {
-            let data = JSON.parse(localStorage.getItem(type)||'[]');
-            if(type==='course') data.push({id:Date.now(), n:document.getElementById('ad-c-n').value, t:document.getElementById('ad-c-t').value, l:document.getElementById('ad-c-l').value});
-            if(type==='teacher') data.push({id:Date.now(), n:document.getElementById('ad-t-n').value, p:document.getElementById('ad-t-p').value});
-            localStorage.setItem(type, JSON.stringify(data));
-            render();
-            alert("تم التحديث بنجاح");
-        }
-
-        function render() {
-            const courses = JSON.parse(localStorage.getItem('course')||'[]');
-            const teachers = JSON.parse(localStorage.getItem('teacher')||'[]');
-            const sts = JSON.parse(localStorage.getItem('sts')||'[]');
-
-            // تحديث الإحصائيات
-            if(document.getElementById('admin-dashboard').style.display !== 'none') {
-                document.getElementById('stat-sts').innerText = sts.length;
-                document.getElementById('stat-crs').innerText = courses.length;
-                document.getElementById('stat-tch').innerText = teachers.length;
-            }
-
-            // عرض الملاحظات الخاصة بالطالب
-            if(currentUser) {
-                document.getElementById('st-private').innerText = localStorage.getItem('note_'+currentUser) || "لا توجد ملاحظات أو حصص مجدولة لك حالياً.";
-            }
-
-            // شبكة الدورات والملفات
-            document.getElementById('courses-grid').innerHTML = courses.map(c => `
-                <div class="card">
-                    <h3 style="color:var(--primary)">${c.n}</h3>
-                    <p style="font-size:0.9rem; opacity:0.8;">بإشراف: ${c.t}</p>
-                    <div style="margin-top:15px; display:flex; gap:10px;">
-                        ${c.l ? `<a href="${c.l}" target="_blank" style="flex:1; text-decoration:none; background:white; color:var(--accent); border:1px solid var(--accent); padding:10px; border-radius:10px; text-align:center; font-weight:bold;">PDF الملف</a>` : ''}
-                        <a href="https://wa.me/9627xxxxxxxx" target="_blank" style="flex:1; text-decoration:none; background:var(--primary); color:white; padding:10px; border-radius:10px; text-align:center; font-weight:bold;">اشتراك</a>
-                    </div>
-                </div>
-            `).join('');
-
-            // شبكة المعلمين
-            document.getElementById('teachers-grid').innerHTML = teachers.map(t => `
-                <div class="card" style="text-align:center;">
-                    <i class="fas fa-user-circle fa-3x" style="color:var(--primary); margin-bottom:10px;"></i>
-                    <h4>${t.n}</h4>
-                    <a href="https://wa.me/${t.p}" target="_blank" style="display:block; margin-top:10px; color:#075e54; font-weight:bold; text-decoration:none;"><i class="fab fa-whatsapp"></i> واتساب المعلم</a>
-                </div>
-            `).join('');
-
-            // قائمة الطلاب للأدمن
-            document.getElementById('admin-st-list').innerHTML = sts.map(s => `
-                <button onclick="editSt('${s}')" style="padding:10px 15px; border-radius:10px; border:1px solid var(--primary); background:white; cursor:pointer; font-weight:bold;">${s}</button>
-            `).join('');
-
-            // مدير الحذف
-            document.getElementById('delete-manager').innerHTML = "<h4>إدارة المحتوى (حذف)</h4>" + 
-                courses.map(c => `<div style="display:flex; justify-content:space-between; padding:10px; background:white; margin-top:5px; border-radius:10px;"><span>${c.n}</span><i class="fas fa-trash" style="color:red; cursor:pointer;" onclick="delItem('course', ${c.id})"></i></div>`).join('') +
-                teachers.map(t => `<div style="display:flex; justify-content:space-between; padding:10px; background:white; margin-top:5px; border-radius:10px;"><span>${t.n}</span><i class="fas fa-trash" style="color:red; cursor:pointer;" onclick="delItem('teacher', ${t.id})"></i></div>`).join('');
-        }
-
-        function editSt(name) {
-            editTarget = name;
-            document.getElementById('st-edit-box').style.display = 'block';
-            document.getElementById('target-st').innerText = name;
-            document.getElementById('target-msg').value = localStorage.getItem('note_'+name) || "";
-        }
-
-        function updateSt() {
-            localStorage.setItem('note_'+editTarget, document.getElementById('target-msg').value);
-            alert("تم تحديث بيانات " + editTarget);
-            render();
-        }
-
-        function delItem(type, id) {
-            let data = JSON.parse(localStorage.getItem(type));
-            localStorage.setItem(type, JSON.stringify(data.filter(x => x.id !== id)));
-            render();
-        }
-
+        let curU = "";
+        
         function showTab(id, btn) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            btn.classList.add('active');
+            if(btn) btn.classList.add('active');
             render();
+        }
+
+        // تسجيل دخول الطالب
+        function stLogin() {
+            let n = document.getElementById('st-name').value;
+            if(!n) return;
+            curU = n;
+            let sts = JSON.parse(localStorage.getItem('sts_db') || '{}');
+            if(!sts[n]) {
+                sts[n] = { status: 'pending', note: '', grade: '--', comment: '' };
+                localStorage.setItem('sts_db', JSON.stringify(sts));
+            }
+            document.getElementById('login-screen').style.display='none';
+            document.getElementById('student-dash').style.display='block';
+            document.getElementById('welcome-user').innerText = `أهلاً بك، ${n} 👑`;
+            render();
+        }
+
+        function authAdmin() {
+            if(document.getElementById('admin-pass').value === "AAAA1234") {
+                document.getElementById('admin-auth').style.display='none';
+                document.getElementById('admin-panel').style.display='block';
+                render();
+            }
+        }
+
+        // ميزات الأدمن
+        function setNews() {
+            localStorage.setItem('ad_news', document.getElementById('ad-news').value);
+            render();
+        }
+
+        function addCourse() {
+            let c = JSON.parse(localStorage.getItem('crs_db') || '[]');
+            c.push({id: Date.now(), n: document.getElementById('ad-cn').value, l: document.getElementById('ad-cl').value});
+            localStorage.setItem('crs_db', JSON.stringify(c));
+            render();
+        }
+
+        function toggleStatus(n) {
+            let sts = JSON.parse(localStorage.getItem('sts_db'));
+            sts[n].status = (sts[n].status === 'pending' ? 'active' : 'pending');
+            localStorage.setItem('sts_db', JSON.stringify(sts));
+            render();
+        }
+
+        function updateStData(n) {
+            let sts = JSON.parse(localStorage.getItem('sts_db'));
+            let newNote = prompt("أدخل الموعد أو الملاحظة:", sts[n].note);
+            let newGrade = prompt("أدخل العلامة (مثلاً 95%):", sts[n].grade);
+            if(newNote !== null) sts[n].note = newNote;
+            if(newGrade !== null) sts[n].grade = newGrade;
+            localStorage.setItem('sts_db', JSON.stringify(sts));
+            render();
+        }
+
+        function render() {
+            const sts = JSON.parse(localStorage.getItem('sts_db') || '{}');
+            const crs = JSON.parse(localStorage.getItem('crs_db') || '[]');
+            const news = localStorage.getItem('ad_news');
+
+            // شريط الإعلانات
+            if(news) {
+                document.getElementById('ticker').innerText = "📢 عاجل: " + news;
+                document.getElementById('ticker').style.display = 'block';
+            }
+
+            // واجهة الطالب
+            if(curU) {
+                let me = sts[curU];
+                document.getElementById('st-status-msg').innerText = me.status === 'pending' ? "حسابك بانتظار تفعيل الإدارة..." : "حسابك نشط 🔓 - ملاحظة: " + me.note;
+                document.getElementById('my-grade').innerText = me.grade;
+                
+                if(me.status === 'pending') {
+                    document.getElementById('locked-msg').style.display = 'block';
+                    document.getElementById('content-unlocked').style.display = 'none';
+                } else {
+                    document.getElementById('locked-msg').style.display = 'none';
+                    document.getElementById('content-unlocked').style.display = 'block';
+                }
+            }
+
+            // شبكة المواد
+            document.getElementById('courses-grid').innerHTML = crs.map(c => `
+                <div class="card">
+                    <h3>${c.n}</h3>
+                    <a href="${c.l}" target="_blank" class="btn-p" style="display:block; text-align:center; text-decoration:none;">تحميل الملخص PDF</a>
+                </div>
+            `).join('');
+
+            // لوحة الأدمن - الطلاب
+            let stCount = 0, penCount = 0;
+            let tableHTML = "";
+            for(let name in sts) {
+                stCount++;
+                if(sts[name].status === 'pending') penCount++;
+                tableHTML += `
+                    <tr style="border-bottom:1px solid #eee;">
+                        <td style="padding:10px;">${name}</td>
+                        <td class="status-${sts[name].status}">${sts[name].status === 'active' ? 'نشط' : 'معلق'}</td>
+                        <td>${sts[name].note} | ${sts[name].grade}</td>
+                        <td>
+                            <button onclick="toggleStatus('${name}')" style="color:blue; border:none; background:none; cursor:pointer;">تفعيل/تعطيل</button>
+                            <button onclick="updateStData('${name}')" style="color:green; border:none; background:none; cursor:pointer; margin-right:10px;">تعديل</button>
+                        </td>
+                    </tr>
+                `;
+            }
+            document.getElementById('st-table-body').innerHTML = tableHTML;
+            document.getElementById('s-sts').innerText = stCount;
+            document.getElementById('s-crs').innerText = crs.length;
+            document.getElementById('s-pen').innerText = penCount;
+            document.getElementById('s-act').innerText = stCount - penCount;
+        }
+
+        // AI الذكي
+        function smartAI() {
+            let inp = document.getElementById('ai-in').value.toLowerCase();
+            let res = "سؤال ممتاز! كوني مساعدك الذكي، أنصحك بالتركيز على الملخصات الموجودة في قسم الأكاديمية وجدولة وقتك جيداً.";
+            if(inp.includes("موعد")) res = "يمكنك رؤية موعد حصتك في لوحة التحكم الرئيسية الخاصة بك أعلى الشاشة.";
+            if(inp.includes("علامه") || inp.includes("نتيجه")) res = "علامتك الحالية تظهر في قسم (تقييمك الدراسي) بجانب شات AI.";
+            if(inp.includes("تفعيل")) res = "إذا كان حسابك معلقاً، يرجى التواصل مع الأدمن عبر الواتساب لتفعيل حسابك.";
+            
+            document.getElementById('ai-resp').innerText = res;
+            document.getElementById('ai-in').value = "";
         }
 
         window.onload = render;
     </script>
 </body>
 </html>
-
